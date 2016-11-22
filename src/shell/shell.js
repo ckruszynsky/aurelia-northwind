@@ -6,11 +6,11 @@ export class Shell {
   configureRouter(config,router){
     this.router = router;
     config.map([
-      { route: ['', 'customers'], name: 'customers', moduleId: 'customers/index', title: 'Customers'},
-      { route: 'customerDetail/:customerId', name: 'customerDetails', moduleId: 'customers/details', title: 'Customer Details' },
-      { route: 'orders', name: 'orders', moduleId: 'orders/index', title: 'Orders',nav: true },
-      { route: 'products', name: 'products', moduleId: 'products/index', title: 'Products', nav:true},
-      { route: 'categories', name: 'categories', moduleId: 'category/index', title: 'Categories', nav:true }
+      { route: ['', 'customers'], name: 'customers', moduleId: 'customers/customers', title: 'Customers'},
+      { route: 'customerDetail/:customerId', name: 'customerDetails', moduleId: 'customers/customerDetails', title: 'Customer Details' },
+      { route: 'orders', name: 'orders', moduleId: 'orders/orders', title: 'Orders',nav: true },
+      { route: 'products', name: 'products', moduleId: 'products/products', title: 'Products', nav:true},
+      { route: 'categories', name: 'categories', moduleId: 'categories/categories', title: 'Categories', nav:true }
     ]);
   }
 }
