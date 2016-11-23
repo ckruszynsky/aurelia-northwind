@@ -161,8 +161,8 @@ define('resources/index',["exports"], function (exports) {
   exports.configure = configure;
   function configure(config) {}
 });
-define('shell/shell',['exports'], function (exports) {
-  'use strict';
+define('shell/shell',["exports"], function (exports) {
+  "use strict";
 
   Object.defineProperty(exports, "__esModule", {
     value: true
@@ -181,27 +181,17 @@ define('shell/shell',['exports'], function (exports) {
 
     Shell.prototype.configureRouter = function configureRouter(config, router) {
       this.router = router;
-      config.map([{ route: ['', 'customers'], name: 'customers', moduleId: 'customers/customers', title: 'Customers' }, { route: 'customerDetails/:id', name: 'customerDetails', moduleId: 'customers/customerDetails', title: 'Customer Details' }, { route: 'orders', name: 'orders', moduleId: 'orders/orders', title: 'Orders', nav: true }, { route: 'products', name: 'products', moduleId: 'products/products', title: 'Products', nav: true }, { route: 'categories', name: 'categories', moduleId: 'categories/categories', title: 'Categories', nav: true }]);
     };
 
     return Shell;
   }();
 });
-define('customers/customers',['exports', 'aurelia-framework', './customer-service'], function (exports, _aureliaFramework, _customerService) {
-  'use strict';
+define('customers/customers',["exports"], function (exports) {
+  "use strict";
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.Customers = undefined;
-
-  var _customerService2 = _interopRequireDefault(_customerService);
-
-  function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : {
-      default: obj
-    };
-  }
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -209,33 +199,17 @@ define('customers/customers',['exports', 'aurelia-framework', './customer-servic
     }
   }
 
-  var _dec, _class;
-
-  var Customers = exports.Customers = (_dec = (0, _aureliaFramework.inject)(_customerService2.default), _dec(_class = function () {
-    function Customers(customerService) {
+  var Customers = exports.Customers = function () {
+    function Customers() {
       _classCallCheck(this, Customers);
 
       this.customers = [];
-
-      this.title = "Customers";
-      this.customerService = customerService;
     }
 
-    Customers.prototype.activate = function activate() {
-      var _this = this;
-
-      return Promise.all([this.customerService.getCustomers().then(function (message) {
-        return _this.customers = JSON.parse(message.response).Customers;
-      })]);
-    };
-
-    Customers.prototype.getAvatar = function getAvatar() {
-      var random = Math.floor(Math.random() * (10 - 1 + 1) + 1);
-      return "//unsplash.it/50/50?image=" + random;
-    };
+    Customers.prototype.activate = function activate() {};
 
     return Customers;
-  }()) || _class);
+  }();
 });
 define('customers/customerDetails',["exports"], function (exports) {
   "use strict";
@@ -254,13 +228,126 @@ define('customers/customerDetails',["exports"], function (exports) {
     _classCallCheck(this, CustomerDetails);
   };
 });
+define('reportbuilder/helloWorld',["exports"], function (exports) {
+   "use strict";
+
+   Object.defineProperty(exports, "__esModule", {
+      value: true
+   });
+
+   function _classCallCheck(instance, Constructor) {
+      if (!(instance instanceof Constructor)) {
+         throw new TypeError("Cannot call a class as a function");
+      }
+   }
+
+   var HelloWorld = exports.HelloWorld = function () {
+      function HelloWorld() {
+         _classCallCheck(this, HelloWorld);
+      }
+
+      HelloWorld.prototype.activate = function activate(modelData) {
+         console.log(modelData);
+      };
+
+      return HelloWorld;
+   }();
+});
+define('reportbuilder/hello-world',["exports"], function (exports) {
+   "use strict";
+
+   Object.defineProperty(exports, "__esModule", {
+      value: true
+   });
+
+   function _classCallCheck(instance, Constructor) {
+      if (!(instance instanceof Constructor)) {
+         throw new TypeError("Cannot call a class as a function");
+      }
+   }
+
+   var HelloWorld = exports.HelloWorld = function () {
+      function HelloWorld() {
+         _classCallCheck(this, HelloWorld);
+      }
+
+      HelloWorld.prototype.activate = function activate(modelData) {
+         console.log(modelData);
+      };
+
+      return HelloWorld;
+   }();
+});
+define('shell/HelloWorld',["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+
+  var HelloWorld = exports.HelloWorld = function () {
+    function HelloWorld() {
+      _classCallCheck(this, HelloWorld);
+    }
+
+    HelloWorld.prototype.activate = function activate(modelData) {
+      console.log(modelData);
+    };
+
+    return HelloWorld;
+  }();
+});
+define('HelloWorld',['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+
+  var HelloWorld = exports.HelloWorld = function () {
+    function HelloWorld() {
+      _classCallCheck(this, HelloWorld);
+    }
+
+    HelloWorld.prototype.activate = function activate(modelData) {
+      this.model = modelData;
+      console.log(modelData);
+    };
+
+    HelloWorld.prototype.getViewStrategy = function getViewStrategy() {
+      if (this.model.demo == 'test') {
+        return 'alternative-hello-world.html';
+      } else {
+        return 'HelloWorld.html';
+      }
+    };
+
+    return HelloWorld;
+  }();
+});
 define('text!categories/categories.html', ['module'], function(module) { module.exports = "<template>\n  <div>\n    <div class=\"header\">\n      <h2>Categories</h2>\n    </div>    \n  </div>\n</template>\n"; });
 define('text!orders/orders.html', ['module'], function(module) { module.exports = "<template>\n</template>\n"; });
 define('text!products/products.html', ['module'], function(module) { module.exports = "<template> \n</template>\n"; });
 define('text!customers/customer-details.html', ['module'], function(module) { module.exports = "<template>\n  <div>\n    <div class=\"header\">\n      <h2>Customer Details</h2>\n    </div>    \n  </div>\n</template>\n"; });
 define('text!customers/customers.html', ['module'], function(module) { module.exports = "<template>\n   \n</template>\n"; });
-define('text!shell/shell.html', ['module'], function(module) { module.exports = "<template>\n  <div class=\"page-host\">\n    <router-view></router-view>\n  </div>\n</template>\n"; });
+define('text!shell/shell.html', ['module'], function(module) { module.exports = "<template>\n  <h1>Shell</h1>\n   <compose view-model=\"HelloWorld\"\n        model.bind=\"{demo: 'test'}\">\n     </compose>\n  <div class=\"page-host\">\n  </div>\n</template>\n"; });
 define('text!shell/sidebar.html', ['module'], function(module) { module.exports = "<template>\n  <div class=\"main-nav\">\n    <ul class=\"nav nav-list\">\n      <li repeat.for=\"item of router.navigation\" class=\"${item.isActive ? 'active' : ''}\"> <!--One li per item in router.navigation; apply the active class if items.isActive-->\n        <a href.bind=\"item.href\"> <!--Bind the href to item.href-->\n          <i class=\"fa ${item.settings.icon}\"></i> <!--Add the icon class based on settings.-->\n        </a>\n      </li>\n    </ul>\n  </div>\n</template>\n"; });
 define('text!customers/customerDetails.html', ['module'], function(module) { module.exports = "<template>  \n</template>\n"; });
-define('text!reportbuilder/composeExample.html', ['module'], function(module) { module.exports = "<template>\n      <h1>Hello World</h1>\n      <compose view-model=\"hello-world\"></compose>\n</template>\n"; });
+define('text!reportbuilder/composeExample.html', ['module'], function(module) { module.exports = "<template>\n      <h1>Hello World</h1>\n      <compose view-model=\"HelloWorld\"\n        model.bind=\"{demo: test}\"\n        view=\"alternative-hello-world.html\">\n     </compose>\n      \n</template>\n"; });
+define('text!reportbuilder/helloWorld.html', ['module'], function(module) { module.exports = "\n"; });
+define('text!HelloWorld.html', ['module'], function(module) { module.exports = "<template>\n  Hello World\n</template>\n"; });
+define('text!shell/alternative-hello-world.html', ['module'], function(module) { module.exports = ""; });
+define('text!alternative-hello-world.html', ['module'], function(module) { module.exports = "<template>\n    Alternative Hello World\n</template>\n"; });
 //# sourceMappingURL=app-bundle.js.map
