@@ -30,12 +30,12 @@
       
       <ul class="pagination">
         <li class.bind="currentPageIndex === 0 ? 'disabled' : ''">
-          <a href="#" click.delegate="goToFirst()">
+          <a href="#" click.delegate="goToFirst()" class.bind="currentPageIndex === 0 ? 'disabled' : ''">
             <i class="fa fa-fast-backward"></i>
           </a>
             </li>
             <li class.bind="currentPageIndex === 0 ? 'disabled' : ''">
-              <a href="#" click.delegate="goToPreviousPage()">
+              <a  disabled.bind="currentPageIndex === 0" href="#" click.trigger="goToPreviousPage()">
                 <i class="fa fa-backward"></i>
               </a>
             </li>
