@@ -9,13 +9,20 @@
   "license": "MIT",
   "dependencies": {
     "aurelia-animator-css": "^1.0.0",
+    "aurelia-api": "^3.0.0",
     "aurelia-bootstrapper": "^1.0.0",
+    "aurelia-datatable": "^0.4.0",
     "aurelia-fetch-client": "^1.0.0",
     "aurelia-http-client": "^1.0.3",
+    "aurelia-orm": "^3.0.1",
+    "aurelia-pager": "^0.1.0",
+    "aurelia-pagination": "^0.2.2",
+    "aurelia-view-manager": "^0.1.0",
     "bluebird": "^3.4.1",
     "bootstrap": "^3.3.7",
     "font-awesome": "^4.7.0",
-    "jquery": "^3.1.1"
+    "jquery": "^3.1.1",
+    "lodash": "^4.17.2"
   },
   "peerDependencies": {},
   "devDependencies": {

@@ -1,3 +1,57 @@
 <template>
-   
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="page-header">
+        <h1>Customers</h1>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>Company Name</th>
+          <th>Contact</th>
+          <th>Phone</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr repeat.for="customer of currentPage">
+          <td>${customer.CompanyName}</td>
+          <td>${customer.ContactName}</td>
+          <td>${customer.Phone}</td>
+          <td>
+            <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
+            <a route-href="route: customerDetails; params.bind: {customerId: customer.Id}" class="btn btn-sm btn-primary"><i class="fa fa-pencil"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>   
+      
+      <ul class="pagination">
+        <li class.bind="currentPageIndex === 0 ? 'disabled' : ''">
+          <a href="#" click.delegate="goToFirst()">
+            <i class="fa fa-fast-backward"></i>
+          </a>
+            </li>
+            <li class.bind="currentPageIndex === 0 ? 'disabled' : ''">
+              <a href="#" click.delegate="goToPreviousPage()">
+                <i class="fa fa-backward"></i>
+              </a>
+            </li>
+            <li repeat.for="page of pages" class.bind="$index === currentPageIndex ? 'active' : ''">
+              <a href="#" click.delegate="goToPage($index)"> ${$index + 1}</a>
+            </li>
+            <li class.bind="currentPageIndex === pages.length-1 ? 'disabled' : ''">
+              <a href="#" click.delegate="goToNextPage()">
+                <i class="fa fa-forward"></i>
+              </a>
+            </li>
+            <li class.bind="currentPageIndex === pages.length-1 ? 'disabled' : ''">
+              <a href="#" click.delegate="goToLast()">
+                <i class="fa fa-fast-forward"></i>
+              </a>
+            </li>
+            </ul>
+  </div>
 </template>

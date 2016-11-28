@@ -1,8 +1,7 @@
 <template>
-  <h1>Shell</h1>
-   <compose view-model="HelloWorld"
-        model.bind="{demo: 'test'}">
-     </compose>
-  <div class="page-host">
+  <compose view="./header.html"></compose>
+  <div class="container">
+    <router-view></router-view>
   </div>
+
 </template>

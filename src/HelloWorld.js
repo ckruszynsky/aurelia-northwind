@@ -9,7 +9,8 @@ export class HelloWorld {
   }
   
   getViewStrategy(){
-    if(this.model.demo == 'test'){
+    alert("calling view strategy");
+    if(this.model.demo == 'foo'){
           return 'alternative-hello-world.html';
     }else{
       return 'HelloWorld.html';
