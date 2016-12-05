@@ -1,0 +1,27 @@
+<template>
+<ul class="pagination">
+  <li class.bind="currentPageIndex === 0 ? 'disabled' : ''">
+    <a href="#" click.delegate="goToFirst()" class.bind="currentPageIndex === 0 ? 'disabled' : ''">
+      <i class="fa fa-fast-backward"></i>
+    </a>
+  </li>
+  <li class.bind="currentPageIndex === 0 ? 'disabled' : ''">
+    <a disabled.bind="currentPageIndex === 0" href="#" click.trigger="previousPage()">
+      <i class="fa fa-backward"></i>
+    </a>
+  </li>
+  <li repeat.for="page of pages" class.bind="$index === currentPageIndex ? 'active' : ''">
+    <a href="#" click.delegate="goToPage($index)"> ${$index + 1}</a>
+  </li>
+  <li class.bind="currentPageIndex === pages.length-1 ? 'disabled' : ''">
+    <a href="#" click.delegate="nextPage()">
+      <i class="fa fa-forward"></i>
+    </a>
+  </li>
+  <li class.bind="currentPageIndex === pages.length-1 ? 'disabled' : ''">
+    <a href="#" click.delegate="goToLast()">
+      <i class="fa fa-fast-forward"></i>
+    </a>
+  </li>
+</ul>
+</template>
