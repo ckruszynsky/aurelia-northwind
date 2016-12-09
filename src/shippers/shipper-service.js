@@ -2,38 +2,38 @@ import {inject} from 'aurelia-framework';
 import {HttpClient, json} from 'aurelia-fetch-client';
 
 @inject(HttpClient)
-export class orderservice {
+export class shipperService {
   constructor(client){
     this.client = client;
   }
 
   getorders() {
       return this.client
-            .fetch("orders")
+            .fetch("shippers")
             .then(response => response.json());
   }  
 
   get(Id){
       return this.client
-            .fetch(`orders/${Id}`)
+            .fetch(`shippers/${Id}`)
             .then(response => response.json());   
   }
 
-  update(order){
+  update(shipper){
       return this.client
-              .fetch(`orders/${order.OrderID}`,{method: 'put', body: json(order)})
-              .then(() => this.get(order.OrderID));   
+              .fetch(`shippers/${shipper.ShipperID}`,{method: 'put', body: json(shipper)})
+              .then(() => this.get(shipper.ShipperID));   
   }
 
-  save(order){
+  save(shipper){
       return this.client
-              .fetch(`orders/${order.OrderID}`,{method: 'post', body: json(order)})
-              .then(() => this.get(order.OrderID));
+              .fetch(`shippers/${shipper.ShipperID}`,{method: 'post', body: json(shipper)})
+              .then(() => this.get(shipper.ShipperID));
   }
 
   delete(Id){
     return this.client
-            .fetch(`orders/${Id}`,{method: 'delete'})
+            .fetch(`shippers/${Id}`,{method: 'delete'})
             .then(() => this.getorders() );
   }
 }

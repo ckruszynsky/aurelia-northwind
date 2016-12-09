@@ -2,7 +2,7 @@ import {inject} from 'aurelia-framework';
 import {HttpClient, json} from 'aurelia-fetch-client';
 
 @inject(HttpClient)
-export class orderservice {
+export class productService {
   constructor(client){
     this.client = client;
   }
@@ -19,16 +19,16 @@ export class orderservice {
             .then(response => response.json());   
   }
 
-  update(order){
+  update(product){
       return this.client
-              .fetch(`orders/${order.OrderID}`,{method: 'put', body: json(order)})
-              .then(() => this.get(order.OrderID));   
+              .fetch(`orders/${product.ProductID}`,{method: 'put', body: json(product)})
+              .then(() => this.get(product.ProductID));   
   }
 
-  save(order){
+  save(product){
       return this.client
-              .fetch(`orders/${order.OrderID}`,{method: 'post', body: json(order)})
-              .then(() => this.get(order.OrderID));
+              .fetch(`orders/${product.ProductID}`,{method: 'post', body: json(product)})
+              .then(() => this.get(product.ProductID));
   }
 
   delete(Id){
