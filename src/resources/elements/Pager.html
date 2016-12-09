@@ -6,7 +6,7 @@
     </a>
   </li>
   <li class.bind="currentPageIndex === 0 ? 'disabled' : ''">
-    <a disabled.bind="currentPageIndex === 0" href="#" click.trigger="previousPage()">
+    <a disabled.bind="currentPageIndex === 0" href="#" click.trigger="goToPreviousPage()">
       <i class="fa fa-backward"></i>
     </a>
   </li>
@@ -14,7 +14,7 @@
     <a href="#" click.delegate="goToPage($index)"> ${$index + 1}</a>
   </li>
   <li class.bind="currentPageIndex === pages.length-1 ? 'disabled' : ''">
-    <a href="#" click.delegate="nextPage()">
+    <a href="#" click.delegate="goToNextPage()">
       <i class="fa fa-forward"></i>
     </a>
   </li>

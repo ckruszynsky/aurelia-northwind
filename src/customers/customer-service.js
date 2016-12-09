@@ -1,17 +1,39 @@
 import {inject} from 'aurelia-framework';
-import {HttpClient} from 'aurelia-http-client';
+import {HttpClient, json} from 'aurelia-fetch-client';
 
 @inject(HttpClient)
 export class CustomerService {
-  constructor(httpClient){
-    this.httpClient = httpClient;
+  constructor(client){
+    this.client = client;
   }
 
   getCustomers() {
-      return this.httpClient.get("http://localhost:51340/customers?format=json");            
+      return this.client
+            .fetch("customers")
+            .then(response => response.json());
   }  
 
-  getCustomer(Id){
-    return this.httpClient.get("http://localhost:51340/customers/"+ Id + "?format=json");
+  get(Id){
+      return this.client
+            .fetch(`customers/${Id}`)
+            .then(response => response.json());   
+  }
+
+  update(customer){
+      return this.client
+              .fetch(`customers/${customer.CustomerID}`,{method: 'put', body: json(customer)})
+              .then(() => this.get(customer.CustomerID));   
+  }
+
+  save(customer){
+      return this.client
+              .fetch(`customers/${customer.CustomerID}`,{method: 'post', body: json(customer)})
+              .then(() => this.get(customer.CustomerID));
+  }
+
+  delete(Id){
+    return this.client
+            .fetch(`customers/${Id}`,{method: 'delete'})
+            .then(() => this.getCustomers() );
   }
 }

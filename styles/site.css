@@ -1,3 +1,4 @@
+
 nav {
   background-color :#1565c0;
 }
@@ -16,7 +17,6 @@ nav {
   line-height: 72px;
   text-shadow: rgba(0, 0, 0, 0.5) 0 0 15px;
   text-transform: uppercase;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .splash .fa-spinner {
@@ -24,4 +24,17 @@ nav {
   display: inline-block;
   font-size: 72px;
   margin-top: 50px;
+}
+
+.errorSummary {
+  list-style-type:square ;
+  max-width: 350px;
+  padding:20px;
+  border:2px solid #a94442;
+  border-radius: 4px;
+  background-color: pink;
+}
+
+.has-error .form-control {
+  background:pink !important;
 }

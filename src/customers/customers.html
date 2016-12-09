@@ -1,11 +1,16 @@
 <template>
+  <div class="row">    
+    <div class="col-xs-1">
+        <button class="btn"><i class="fa fa-plus"> Add New Customer </i></button>
+    </div>    
+  </div>
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <div class="page-header">
         <h1>Customers</h1>
       </div>
     </div>
-  </div>
+  </div>  
   <div class="row">
     <table class="table table-striped table-hover">
       <thead>
@@ -21,8 +26,8 @@
           <td>${customer.ContactName}</td>
           <td>${customer.Phone}</td>
           <td>
-            <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
-            <a route-href="route: customerDetails; params.bind: {customerId: customer.Id}" class="btn btn-sm btn-primary"><i class="fa fa-pencil"></i></button>
+            <button click.delegate="deleteCustomer(customer)" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
+            <a route-href="route: customerDetails; params.bind: {customerId: customer.CustomerID}" class="btn btn-sm btn-primary"><i class="fa fa-pencil"></i></button>
             </td>
           </tr>
         </tbody>

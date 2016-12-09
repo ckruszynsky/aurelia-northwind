@@ -1,16 +1,17 @@
-import {inject,DOM,bindable,LogManager} from 'aurelia-framework';
+import {inject,DOM,bindingMode,bindable,LogManager} from 'aurelia-framework';
+
 const logger = LogManager.getLogger('pager');
 
 @inject(DOM.Element)
 export class Pager {
   @bindable currentPage = [];
   @bindable pageSize = 10;
-  @bindable model;
+  @bindable({defaultBindingMode: bindingMode.twoWay}) model =[];
   pages = [];
   currentPageIndex = 0;
   
   constructor(element){
-    this.element = element;
+    this.element = element;  
   }
 
   activated(){
@@ -27,6 +28,12 @@ export class Pager {
     this.goToPage(0);
   }
 
+  modelChanged(newVal,oldVal){
+    this.pages = _.range(0, this.model.length, this.pageSize);
+    this.goToPage(this.currentPageIndex);
+  }
+
+  
    goToPage(pageIndex) {
     this.currentPageIndex = pageIndex;
     let minIndex = this.pages[pageIndex];

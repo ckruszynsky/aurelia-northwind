@@ -1,22 +1,31 @@
-import {inject,computedFrom} from 'aurelia-framework';
+import {inject, computedFrom} from 'aurelia-framework';
 import {CustomerService} from './customer-service';
 
 @inject(CustomerService)
 export class Customers {
   customers = [];
- 
+
   constructor(customerService) {
     this.customerService = customerService;
   }
 
-  activate() {    
-    
+  activate() {
     return Promise.all([
-      this.customerService.getCustomers()
-        .then(message => {
-          var resp = JSON.parse(message.response);
-          this.customers = resp.Customers;         
-        })
-    ]);
-  }  
+      this.loadCustomers()
+    ]).bind(this);
+  }
+
+  loadCustomers(){
+    return this.customerService
+          .getCustomers()
+          .then(data =>{ 
+            this.customers = data
+          });
+  }
+  
+  deleteCustomer(customer){
+     return this.customerService
+              .delete(customer.CustomerID)
+              .then(() => this.loadCustomers());
+  }
 }

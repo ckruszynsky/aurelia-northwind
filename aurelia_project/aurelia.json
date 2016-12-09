@@ -114,8 +114,18 @@
           "aurelia-router",
           "aurelia-task-queue",
           "aurelia-templating",
-          "aurelia-templating-binding",
-          "aurelia-http-client",
+          "aurelia-templating-binding",         
+          "aurelia-fetch-client",
+        {
+          "name": "aurelia-binding",
+          "path": "../node_modules/aurelia-binding/dist/amd",
+          "main": "aurelia-binding"
+        },
+        {
+          "name": "aurelia-dialog",
+          "path": "../node_modules/aurelia-dialog/dist/amd",
+          "main": "aurelia-dialog"
+        },
           {
             "name" : "Spinner",
             "path" : "../node_modules/spin.js/spin"
@@ -143,6 +153,11 @@
             "path": "../node_modules/aurelia-testing/dist/amd",
             "main": "aurelia-testing",
             "env": "dev"
+          },
+           {
+            "name": "aurelia-validation",
+            "path": "../node_modules/aurelia-validation/dist/amd",
+            "main": "aurelia-validation"
           }         
         ]
       }
