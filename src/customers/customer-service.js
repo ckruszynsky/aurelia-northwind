@@ -6,7 +6,22 @@ export class CustomerService {
   constructor(client){
     this.client = client;
   }
+  createNew() {
+      let customer = {
+        CustomerID : '',
+        CompanyName: '',
+        ContactName: '',
+        Address: '',
+        PostalCode: '',
+        Country: '',
+        Phone: '',
+        Fax: ''
+      };
 
+     let promise = Promise.resolve(customer);
+     return promise;
+  }
+  
   getCustomers() {
       return this.client
             .fetch("customers")

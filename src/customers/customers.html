@@ -1,7 +1,8 @@
 <template>
+  <require from="../resources/value-converters/filter"></require>
   <div class="row">    
     <div class="col-xs-1">
-        <button class="btn"><i class="fa fa-plus"> Add New Customer </i></button>
+        <a route-href="route:customerDetails;params.bind : { customerId: 'new'}" class="btn"><i class="fa fa-plus"> Add New Customer </i></a>
     </div>    
   </div>
   <div class="row">
@@ -11,6 +12,11 @@
       </div>
     </div>
   </div>  
+  <div class="row">
+                <input type="text" class="col-md-4" value.bind="searchTerm" placeholder="search..." ></input>
+                <button class="btn-sm btn-success search-button" if.bind="searchTerm.length > 0" click.delegate="search()"><i class="fa fa-search"></i></button>
+                <button class="btn-sm btn-danger search-button" if.bind="searchTerm.length > 0" click.delegate="clearSearch()"><i class="fa fa-times"></i></button>
+            </div> 
   <div class="row">
     <table class="table table-striped table-hover">
       <thead>

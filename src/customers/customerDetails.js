@@ -24,10 +24,16 @@ export class CustomerDetails {
   }
 
   activate(params) {
-    return Promise.all([
-      this.customerService.get(params.customerId)
-          .then(data => this.customer = data)      
-      ]).bind(this);
+    if(params.customerId !== "new"){
+        return Promise.all([ 
+          this.customerService.get(params.customerId).then(data => this.customer = data)      
+      ]).bind(this);      
+    }else{
+      return Promise.all([
+          this.customerService.createNew().then(data=> this.customer = data)
+      ]);
+    }
+
   }
 
   canDeactivate(){
