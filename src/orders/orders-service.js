@@ -2,16 +2,22 @@ import {inject} from 'aurelia-framework';
 import {HttpClient, json} from 'aurelia-fetch-client';
 
 @inject(HttpClient)
-export class orderservice {
+export class OrderService {
   constructor(client){
     this.client = client;
   }
 
-  getorders() {
+  getOrders() {
       return this.client
             .fetch("orders")
             .then(response => response.json());
   }  
+
+  getCustomerOrders(customerId){
+    return this.client
+          .fetch(`customer/${customerId}/orders`)
+          .then(response => response.json());
+  }
 
   get(Id){
       return this.client

@@ -19,6 +19,7 @@
     "aurelia-orm": "^3.0.1",
     "aurelia-pager": "^0.1.0",
     "aurelia-pagination": "^0.2.2",
+    "aurelia-table": "^1.0.4",
     "aurelia-validatejs": "^0.7.0",
     "aurelia-validation": "^0.14.0",
     "aurelia-view-manager": "^0.1.0",

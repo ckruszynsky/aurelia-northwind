@@ -41,6 +41,7 @@
           <label for="Fax">Fax:</label>
           <input type="text" class="form-control" value.bind="customer.Fax & validate" placeholder="Fax">
         </div>
+        <promise-button value="Save" _disabled="true"></promise-button>
         <button type="submit" click.trigger="save()" class="btn btn-sm btn-primary">Submit</button>
         <a route-href="route: customers;" class="btn btn-sm btn-primary">Cancel</a>
       </form>

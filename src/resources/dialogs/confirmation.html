@@ -1,0 +1,14 @@
+<template>
+  <ai-dialog style="max-width:325px">
+    <ai-dialog-header></ai-dialog-header>
+      <ai-dialog-body>
+        ${model.message}
+      </ai-dialog-body>
+      <ai-dialog-footer>
+        <button repeat.for="option of model.options"
+            click.trigger="selectOption(option)">
+              ${option}
+          </button>
+      </ai-dialog-footer>
+  </ai-dialog>
+</template>

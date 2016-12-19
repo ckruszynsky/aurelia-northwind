@@ -12,8 +12,8 @@ export class Customers {
 
   activate() {
     return Promise.all([
-      this.loadCustomers()
-    ]).bind(this);
+       this.loadCustomers()
+    ]);
   }
 
   loadCustomers(){
@@ -40,14 +40,17 @@ export class Customers {
 
   search(){
     this.allCustomers = this.customers;
-    this.customers = this.customers.filter((item) => {
-        let matches = this.customerSearch(this.searchTerm,item.CompanyName);
+    this.customers = this.customers.filter((customer) => {
+        let matches = this.customerSearch(this.searchTerm,customer);
           return matches;
        });
   } 
-  
-  customerSearch(searchExpression,value){
-     if(!searchExpression || !value) return false;
-     return value.toUpperCase().indexOf(searchExpression.toUpperCase()) !== -1;
-  }
+
+  customerSearch(searchExpression,customer){
+     if(!searchExpression || !customer) return false;
+
+     return customer.CompanyName.toUpperCase().indexOf(searchExpression.toUpperCase()) !== -1 || 
+     customer.CustomerID.toUpperCase().indexOf(searchExpression.toUpperCase()) !== -1 || 
+     customer.ContactName.toUpperCase().indexOf(searchExpression.toUpperCase()) !== -1;         
+  } 
 }

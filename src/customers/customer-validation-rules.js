@@ -5,7 +5,7 @@ export class CustomerValidationRules {
 
   getRules(customer) {
     return   ValidationRules
-        .ensure('CustomerID').displayName('Customer ID')
+        .ensure('CustomerID').displayName('Customer Number')
           .required()
           .minLength(3)
         .ensure('ContactName').displayName('Contact Name')
@@ -13,7 +13,7 @@ export class CustomerValidationRules {
           .minLength(3)
         .ensure('CompanyName').displayName('Company Name')
           .required()
-          .withMessage(`\${$displayName} is required.`)
+          .withMessage(`\${$displayName} is must be provided.`)
           .minLength(3)
         .ensure('Address').required()            
         .ensure('PostalCode').displayName("Postal Code")

@@ -30,7 +30,12 @@ export class Pager {
 
   modelChanged(newVal,oldVal){
     this.pages = _.range(0, this.model.length, this.pageSize);
-    this.goToPage(this.currentPageIndex);
+    if(this.pages.length < this.currentPageIndex){
+      this.goToPage(0);
+    }else{
+          this.goToPage(this.currentPageIndex);
+    }
+
   }
 
   

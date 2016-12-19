@@ -1,5 +1,5 @@
 import {inject} from 'aurelia-framework';
-import {ValidationRules, ValidationControllerFactory, validateTrigger} from 'aurelia-validation';
+import {ValidationControllerFactory, validateTrigger} from 'aurelia-validation';
 import {BootstrapFormRenderer} from 'resources/renderer/bootstrap-form-renderer';
 import {CustomerValidationRules} from './customer-validation-rules';
 import {CustomerService} from './customer-service';
@@ -9,14 +9,16 @@ import {CommonDialogs} from '../resources/dialogs/common-dialogs';
 export class CustomerDetails {
   customer = {};
   controller = null;
-  
-  constructor(customerService,controllerFactory,validationRules,dialog) {
-    this.validationRules = validationRules;
+
+
+
+  constructor(customerService,controllerFactory,customerValidationRules,dialog) {
+    this.validationRules = customerValidationRules;
     this.customerService = customerService;
     this.controller = controllerFactory.createForCurrentScope();
     this.controller.validateTrigger  = validateTrigger.blur;
     this.dialog = dialog;
-     this.controller.addRenderer(new BootstrapFormRenderer());
+    this.controller.addRenderer(new BootstrapFormRenderer());
   }
 
   bind(){
@@ -37,14 +39,6 @@ export class CustomerDetails {
   }
 
   canDeactivate(){
-    if(this.controller.isDirty){
-      return this.dialog.showMessage(
-        "You have pending changes. Do you want to save the changes before leaving this page?",
-        "Pending Changes",
-        ['Yes', 'No']
-      ).then(response => !response.wasCancelled);
-    }
-    return true;
   }
 
   cancel() {
@@ -52,6 +46,7 @@ export class CustomerDetails {
   }
   
   save(){
+
       this.controller.validate().then(errors=> {
           if(errors.length == 0){
             this.customerService

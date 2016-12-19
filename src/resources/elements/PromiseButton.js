@@ -26,27 +26,27 @@ export class PromiseButton {
         
     this.spinnerOpts = {
       length: Math.round(this.elementRect.height /3),
-      radius: Math.round(this.elementRect.height / 5),
+      radius: Math.round(this.elementRect.height / 3),
       width:  Math.round(this.elementRect.height / 10),
-      scale: .75,
+      scale: 1,
       top:this.elementRect.top,
-      left: -1,
+      left:3,
       color: 'white'
     };
   }
   click($event) {
     this._disabled = true;
-    let tempWidth = this.origWidth + this.origWidth / 2;
+    let tempWidth = this.origWidth;
     let tempHeight =  (this.origHeight + 30); 
     var oldValue = this.Value;
 
     $event.target.style.width = tempWidth + "px";
     $event.target.style.height = tempHeight + "px";
 
-    this.Value = "Loading";
+    this.Value = "";
     var spinner = new Spinner(this.spinnerOpts).spin($event.target);
   
-    var promise = new Promise(function(resolve,reject){
+    var promise = new Promise((resolve,reject) => {
        setTimeout(resolve,1000);
     }).bind(this);
 

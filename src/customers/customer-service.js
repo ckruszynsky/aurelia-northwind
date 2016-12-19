@@ -40,12 +40,6 @@ export class CustomerService {
               .then(() => this.get(customer.CustomerID));   
   }
 
-  save(customer){
-      return this.client
-              .fetch(`customers/${customer.CustomerID}`,{method: 'post', body: json(customer)})
-              .then(() => this.get(customer.CustomerID));
-  }
-
   delete(Id){
     return this.client
             .fetch(`customers/${Id}`,{method: 'delete'})

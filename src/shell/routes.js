@@ -26,6 +26,12 @@ export default[
     settings: {icon: 'fa-cubes'}
   }, 
   {
+    route: 'orderDetails/:orderId',
+    name : 'orderDetails',
+    moduleId: 'orders/order-details',
+    title : 'Order Details'
+  },
+  {
     route : 'products',
     name : 'products',
     moduleId : 'products/products',

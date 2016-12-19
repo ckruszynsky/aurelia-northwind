@@ -21,7 +21,9 @@
     <table class="table table-striped table-hover">
       <thead>
         <tr>
-          <th>Company Name</th>
+          <th>
+              Company Name
+            </th>
           <th>Contact</th>
           <th>Phone</th>
         </tr>
@@ -32,12 +34,14 @@
           <td>${customer.ContactName}</td>
           <td>${customer.Phone}</td>
           <td>
-            <button click.delegate="deleteCustomer(customer)" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
-            <a route-href="route: customerDetails; params.bind: {customerId: customer.CustomerID}" class="btn btn-sm btn-primary"><i class="fa fa-pencil"></i></button>
+            <a route-href="route: orders; params.bind : {customerId: customer.CustomerID, customerName: customer.CompanyName}" style="" class="btn btn-link"><i class="fa fa-2x fa-truck"></i></a>
+            <button click.delegate="deleteCustomer(customer)" class="btn btn-link"><i class="fa fa-2x fa-trash"></i></button>
+            <a route-href="route: customerDetails; params.bind: {customerId: customer.CustomerID}" class="btn btn-link"><i class="fa fa-2x fa-pencil"></i></button>
             </td>
           </tr>
         </tbody>
       </table>  
-      <pager model.two-way="customers" current-page.two-way="currentPage"></pager>         
+      <pager model.two-way="customers" 
+              current-page.two-way="currentPage"></pager>         
   </div>
 </template>
