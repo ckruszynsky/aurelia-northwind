@@ -15,7 +15,7 @@ export class OrderService {
 
   getCustomerOrders(customerId){
     return this.client
-          .fetch(`customer/${customerId}/orders`)
+          .fetch(`customers/${customerId}/orders`)
           .then(response => response.json());
   }
 
@@ -39,7 +39,6 @@ export class OrderService {
 
   delete(Id){
     return this.client
-            .fetch(`orders/${Id}`,{method: 'delete'})
-            .then(() => this.getorders() );
+            .fetch(`orders/${Id}`,{method: 'delete'});
   }
 }

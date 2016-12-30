@@ -34,9 +34,9 @@ export default class Orders {
   }
   
 
-  deleteOrder(){
+  deleteOrder(order){
     return this.orderService
-      .deleteOrder()
+      .delete(order.OrderID)
       .then(resp => this.loadOrders());
   }
 

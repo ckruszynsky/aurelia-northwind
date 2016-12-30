@@ -188,11 +188,7 @@ define('customers/customer-service',['exports', 'aurelia-framework', 'aurelia-fe
     };
 
     CustomerService.prototype.delete = function _delete(Id) {
-      var _this2 = this;
-
-      return this.client.fetch('customers/' + Id, { method: 'delete' }).then(function () {
-        return _this2.getCustomers();
-      });
+      return this.client.fetch('customers/' + Id, { method: 'delete' });
     };
 
     return CustomerService;
@@ -415,7 +411,7 @@ define('orders/orders-service',['exports', 'aurelia-framework', 'aurelia-fetch-c
     };
 
     OrderService.prototype.getCustomerOrders = function getCustomerOrders(customerId) {
-      return this.client.fetch('customer/' + customerId + '/orders').then(function (response) {
+      return this.client.fetch('customers/' + customerId + '/orders').then(function (response) {
         return response.json();
       });
     };
@@ -443,11 +439,7 @@ define('orders/orders-service',['exports', 'aurelia-framework', 'aurelia-fetch-c
     };
 
     OrderService.prototype.delete = function _delete(Id) {
-      var _this3 = this;
-
-      return this.client.fetch('orders/' + Id, { method: 'delete' }).then(function () {
-        return _this3.getorders();
-      });
+      return this.client.fetch('orders/' + Id, { method: 'delete' });
     };
 
     return OrderService;
@@ -504,10 +496,10 @@ define('orders/orders',['exports', 'aurelia-framework', './orders-service'], fun
       }
     };
 
-    Orders.prototype.deleteOrder = function deleteOrder() {
+    Orders.prototype.deleteOrder = function deleteOrder(order) {
       var _this2 = this;
 
-      return this.orderService.deleteOrder().then(function (resp) {
+      return this.orderService.delete(order.OrderID).then(function (resp) {
         return _this2.loadOrders();
       });
     };
@@ -538,68 +530,6 @@ define('orders/orders',['exports', 'aurelia-framework', './orders-service'], fun
     return Orders;
   }()) || _class);
   exports.default = Orders;
-});
-define('regions/region-service',['exports', 'aurelia-framework', 'aurelia-fetch-client'], function (exports, _aureliaFramework, _aureliaFetchClient) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.regionService = undefined;
-
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
-
-  var _dec, _class;
-
-  var regionService = exports.regionService = (_dec = (0, _aureliaFramework.inject)(_aureliaFetchClient.HttpClient), _dec(_class = function () {
-    function regionService(client) {
-      _classCallCheck(this, regionService);
-
-      this.client = client;
-    }
-
-    regionService.prototype.getorders = function getorders() {
-      return this.client.fetch("regions").then(function (response) {
-        return response.json();
-      });
-    };
-
-    regionService.prototype.get = function get(Id) {
-      return this.client.fetch('regions/' + Id).then(function (response) {
-        return response.json();
-      });
-    };
-
-    regionService.prototype.update = function update(region) {
-      var _this = this;
-
-      return this.client.fetch('regions/' + region.RegionID, { method: 'put', body: (0, _aureliaFetchClient.json)(region) }).then(function () {
-        return _this.get(region.RegionID);
-      });
-    };
-
-    regionService.prototype.save = function save(region) {
-      var _this2 = this;
-
-      return this.client.fetch('regions/' + region.RegionID, { method: 'post', body: (0, _aureliaFetchClient.json)(region) }).then(function () {
-        return _this2.get(region.RegionID);
-      });
-    };
-
-    regionService.prototype.delete = function _delete(Id) {
-      var _this3 = this;
-
-      return this.client.fetch('regions/' + Id, { method: 'delete' }).then(function () {
-        return _this3.getorders();
-      });
-    };
-
-    return regionService;
-  }()) || _class);
 });
 define('products/products-service',['exports', 'aurelia-framework', 'aurelia-fetch-client'], function (exports, _aureliaFramework, _aureliaFetchClient) {
   'use strict';
@@ -682,13 +612,13 @@ define('products/products',["exports"], function (exports) {
 
   exports.default = Products;
 });
-define('shippers/shipper-service',['exports', 'aurelia-framework', 'aurelia-fetch-client'], function (exports, _aureliaFramework, _aureliaFetchClient) {
+define('regions/region-service',['exports', 'aurelia-framework', 'aurelia-fetch-client'], function (exports, _aureliaFramework, _aureliaFetchClient) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.shipperService = undefined;
+  exports.regionService = undefined;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -698,51 +628,64 @@ define('shippers/shipper-service',['exports', 'aurelia-framework', 'aurelia-fetc
 
   var _dec, _class;
 
-  var shipperService = exports.shipperService = (_dec = (0, _aureliaFramework.inject)(_aureliaFetchClient.HttpClient), _dec(_class = function () {
-    function shipperService(client) {
-      _classCallCheck(this, shipperService);
+  var regionService = exports.regionService = (_dec = (0, _aureliaFramework.inject)(_aureliaFetchClient.HttpClient), _dec(_class = function () {
+    function regionService(client) {
+      _classCallCheck(this, regionService);
 
       this.client = client;
     }
 
-    shipperService.prototype.getorders = function getorders() {
-      return this.client.fetch("shippers").then(function (response) {
+    regionService.prototype.getorders = function getorders() {
+      return this.client.fetch("regions").then(function (response) {
         return response.json();
       });
     };
 
-    shipperService.prototype.get = function get(Id) {
-      return this.client.fetch('shippers/' + Id).then(function (response) {
+    regionService.prototype.get = function get(Id) {
+      return this.client.fetch('regions/' + Id).then(function (response) {
         return response.json();
       });
     };
 
-    shipperService.prototype.update = function update(shipper) {
+    regionService.prototype.update = function update(region) {
       var _this = this;
 
-      return this.client.fetch('shippers/' + shipper.ShipperID, { method: 'put', body: (0, _aureliaFetchClient.json)(shipper) }).then(function () {
-        return _this.get(shipper.ShipperID);
+      return this.client.fetch('regions/' + region.RegionID, { method: 'put', body: (0, _aureliaFetchClient.json)(region) }).then(function () {
+        return _this.get(region.RegionID);
       });
     };
 
-    shipperService.prototype.save = function save(shipper) {
+    regionService.prototype.save = function save(region) {
       var _this2 = this;
 
-      return this.client.fetch('shippers/' + shipper.ShipperID, { method: 'post', body: (0, _aureliaFetchClient.json)(shipper) }).then(function () {
-        return _this2.get(shipper.ShipperID);
+      return this.client.fetch('regions/' + region.RegionID, { method: 'post', body: (0, _aureliaFetchClient.json)(region) }).then(function () {
+        return _this2.get(region.RegionID);
       });
     };
 
-    shipperService.prototype.delete = function _delete(Id) {
+    regionService.prototype.delete = function _delete(Id) {
       var _this3 = this;
 
-      return this.client.fetch('shippers/' + Id, { method: 'delete' }).then(function () {
+      return this.client.fetch('regions/' + Id, { method: 'delete' }).then(function () {
         return _this3.getorders();
       });
     };
 
-    return shipperService;
+    return regionService;
   }()) || _class);
+});
+define('resources/index',['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.configure = configure;
+  function configure(config) {
+    config.globalResources('./elements/pager');
+    config.globalResources('./elements/PromiseButton');
+    config.globalResources('./value-converters/filter');
+  }
 });
 define('shell/routes',['exports'], function (exports) {
   'use strict';
@@ -839,18 +782,67 @@ define('shell/shell',['exports', './routes', 'aurelia-framework', 'aurelia-fetch
     return Shell;
   }()) || _class);
 });
-define('resources/index',['exports'], function (exports) {
+define('shippers/shipper-service',['exports', 'aurelia-framework', 'aurelia-fetch-client'], function (exports, _aureliaFramework, _aureliaFetchClient) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.configure = configure;
-  function configure(config) {
-    config.globalResources('./elements/Pager');
-    config.globalResources('./elements/PromiseButton');
-    config.globalResources('./value-converters/filter');
+  exports.shipperService = undefined;
+
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
   }
+
+  var _dec, _class;
+
+  var shipperService = exports.shipperService = (_dec = (0, _aureliaFramework.inject)(_aureliaFetchClient.HttpClient), _dec(_class = function () {
+    function shipperService(client) {
+      _classCallCheck(this, shipperService);
+
+      this.client = client;
+    }
+
+    shipperService.prototype.getorders = function getorders() {
+      return this.client.fetch("shippers").then(function (response) {
+        return response.json();
+      });
+    };
+
+    shipperService.prototype.get = function get(Id) {
+      return this.client.fetch('shippers/' + Id).then(function (response) {
+        return response.json();
+      });
+    };
+
+    shipperService.prototype.update = function update(shipper) {
+      var _this = this;
+
+      return this.client.fetch('shippers/' + shipper.ShipperID, { method: 'put', body: (0, _aureliaFetchClient.json)(shipper) }).then(function () {
+        return _this.get(shipper.ShipperID);
+      });
+    };
+
+    shipperService.prototype.save = function save(shipper) {
+      var _this2 = this;
+
+      return this.client.fetch('shippers/' + shipper.ShipperID, { method: 'post', body: (0, _aureliaFetchClient.json)(shipper) }).then(function () {
+        return _this2.get(shipper.ShipperID);
+      });
+    };
+
+    shipperService.prototype.delete = function _delete(Id) {
+      var _this3 = this;
+
+      return this.client.fetch('shippers/' + Id, { method: 'delete' }).then(function () {
+        return _this3.getorders();
+      });
+    };
+
+    return shipperService;
+  }()) || _class);
 });
 define('suppliers/supplier-service',['exports', 'aurelia-framework', 'aurelia-fetch-client'], function (exports, _aureliaFramework, _aureliaFetchClient) {
   'use strict';
@@ -1113,7 +1105,7 @@ define('resources/dialogs/message-box',['exports', 'aurelia-dialog', 'aurelia-fr
     return MessageBox;
   }()) || _class);
 });
-define('resources/elements/Pager',['exports', 'aurelia-framework'], function (exports, _aureliaFramework) {
+define('resources/elements/pager',['exports', 'aurelia-framework'], function (exports, _aureliaFramework) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -3781,16 +3773,17 @@ define('aurelia-dialog/dialog-service',['exports', 'aurelia-metadata', 'aurelia-
     }
   }
 });
-define('text!products/products.html', ['module'], function(module) { module.exports = "<template> \n</template>\n"; });
-define('text!orders/order-details.html', ['module'], function(module) { module.exports = "<template></template>\n"; });
-define('text!orders/orders.html', ['module'], function(module) { module.exports = "<template>\n  <require from=\"../resources/value-converters/filter\"></require>\n  <div class=\"row\">\n    <div class=\"col-xs-1\">\n      <a route-href=\"route:orderDetails;params.bind : { orderId: 'new'}\" class=\"btn\"><i class=\"fa fa-plus\"> Add New Order </i></a>\n    </div>\n  </div>\n  <div class=\"row\">\n    <div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-12\">\n      <div class=\"page-header\">\n        <h1>${title}</h1>\n      </div>\n    </div>\n  </div>\n  <div class=\"row\">\n    <input type=\"text\" class=\"col-md-4\" value.bind=\"searchTerm\" placeholder=\"search...\"></input>\n    <button class=\"btn-sm btn-success search-button\" if.bind=\"searchTerm.length > 0\" click.delegate=\"search()\"><i class=\"fa fa-search\"></i></button>\n    <button class=\"btn-sm btn-danger search-button\" if.bind=\"searchTerm.length > 0\" click.delegate=\"clearSearch()\"><i class=\"fa fa-times\"></i></button>\n  </div>\n  <div class=\"row\">\n    <table class=\"table table-striped table-hover\">\n      <thead>\n        <tr>\n          <th>\n            Order Date\n          </th>\n          <th>Shipped?</td>\n          <th>Employee</th>\n          <th>Shipper</th>\n          <th>Company</th>\n          <th>Ship Address</th>\n          <th>Ship City </th>          \n        </tr>\n      </thead>\n      <tbody>\n        <tr repeat.for=\"order of currentPage\">\n          <td>${order.OrderDate}</td>\n          <td>${order.Shipped}</td>\n          <td>${order.Employee}</td>\n          <td>${order.Shipper}</td>\n          <td>${order.CompanyName}</td>\n          <td>${order.ShipAddress}</td>\n          <td>${order.ShipCity}</td>\n          <td>\n            <button click.delegate=\"deleteOrder(order)\" class=\"btn btn-sm btn-danger\"><i class=\"fa fa-trash\"></i></button>\n            <a route-href=\"route: orderDetails; params.bind: {orderId: order.OrderID}\" class=\"btn btn-sm btn-primary\"><i class=\"fa fa-pencil\"></i></button>\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <pager model.two-way=\"orders\" current-page.two-way=\"currentPage\"></pager>\n  </div>\n</template>\n"; });
-define('text!customers/customerDetails.html', ['module'], function(module) { module.exports = "<template>\n  <div class=\"row\">\n    <div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-12\">\n      <form submit.delegate=\"save()\">\n        <legend>Customer Information</legend>\n        <h3 if.bind=\"controller.errors.length > 0\" class=\"text text-danger\">Form Errors</h3>\n        <ul class=\"errorSummary\" if.bind=\"controller.errors.length > 0\">\n          <li repeat.for=\"error of controller.errors\">\n           <span class=\"text text-danger\"> ${error.message}</span>\n          </li>\n        </ul>\n        <div class=\"form-group\">\n          <label for=\"CustomerId\">Customer Id:</label>\n          <input type=\"text\" class=\"form-control\" value.bind=\"customer.CustomerID & validate\" placeholder=\"Customer Id\">\n        </div>\n        <div class=\"form-group\">\n          <label for=\"CompanyName\">Company Name:</label>\n          <input type=\"text\" class=\"form-control\" value.bind=\"customer.CompanyName & validate\" placeholder=\"Company Name\">\n        </div>\n        <div class=\"form-group\">\n          <label for=\"CompanyName\">Contact Name:</label>\n          <input type=\"text\" class=\"form-control\" value.bind=\"customer.ContactName & validate\" placeholder=\"Contact Name\">\n        </div>\n        <div class=\"form-group\">\n          <label for=\"Address\">Address:</label>\n          <input type=\"text\" class=\"form-control\" value.bind=\"customer.Address & validate\" placeholder=\"Address\">\n        </div>\n        <div class=\"form-group\">\n          <label for=\"PostalCode\">Postal Code:</label>\n          <input type=\"text\" class=\"form-control\" value.bind=\"customer.PostalCode & validate\" placeholder=\"Postal Code\">\n        </div>\n        <div class=\"form-group\">\n          <label for=\"Country\">Country:</label>\n          <input type=\"text\" class=\"form-control\" value.bind=\"customer.Country & validate\" placeholder=\"Country\">\n        </div>\n        <div class=\"form-group\">\n          <label for=\"Phone\">Phone:</label>\n          <input type=\"text\" class=\"form-control\" value.bind=\"customer.Phone & validate\" placeholder=\"Phone\">\n        </div>\n        <div class=\"form-group\">\n          <label for=\"Fax\">Fax:</label>\n          <input type=\"text\" class=\"form-control\" value.bind=\"customer.Fax & validate\" placeholder=\"Fax\">\n        </div>\n        <promise-button value=\"Save\" _disabled=\"true\"></promise-button>\n        <button type=\"submit\" click.trigger=\"save()\" class=\"btn btn-sm btn-primary\">Submit</button>\n        <a route-href=\"route: customers;\" class=\"btn btn-sm btn-primary\">Cancel</a>\n      </form>\n    </div>\n  </div>\n</template>\n"; });
-define('text!customers/customers.html', ['module'], function(module) { module.exports = "<template>\n  <require from=\"../resources/value-converters/filter\"></require>\n  <div class=\"row\">    \n    <div class=\"col-xs-1\">\n        <a route-href=\"route:customerDetails;params.bind : { customerId: 'new'}\" class=\"btn\"><i class=\"fa fa-plus\"> Add New Customer </i></a>\n    </div>    \n  </div>\n  <div class=\"row\">\n    <div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-12\">\n      <div class=\"page-header\">\n        <h1>Customers</h1>\n      </div>\n    </div>\n  </div>  \n  <div class=\"row\">\n                <input type=\"text\" class=\"col-md-4\" value.bind=\"searchTerm\" placeholder=\"search...\" ></input>\n                <button class=\"btn-sm btn-success search-button\" if.bind=\"searchTerm.length > 0\" click.delegate=\"search()\"><i class=\"fa fa-search\"></i></button>\n                <button class=\"btn-sm btn-danger search-button\" if.bind=\"searchTerm.length > 0\" click.delegate=\"clearSearch()\"><i class=\"fa fa-times\"></i></button>\n            </div> \n  <div class=\"row\">\n    <table class=\"table table-striped table-hover\">\n      <thead>\n        <tr>\n          <th>\n              Company Name\n            </th>\n          <th>Contact</th>\n          <th>Phone</th>\n        </tr>\n      </thead>\n      <tbody>\n        <tr repeat.for=\"customer of currentPage\">\n          <td>${customer.CompanyName}</td>\n          <td>${customer.ContactName}</td>\n          <td>${customer.Phone}</td>\n          <td>\n            <a route-href=\"route: orders; params.bind : {customerId: customer.CustomerID, customerName: customer.CompanyName}\" style=\"\" class=\"btn btn-link\"><i class=\"fa fa-2x fa-truck\"></i></a>\n            <button click.delegate=\"deleteCustomer(customer)\" class=\"btn btn-link\"><i class=\"fa fa-2x fa-trash\"></i></button>\n            <a route-href=\"route: customerDetails; params.bind: {customerId: customer.CustomerID}\" class=\"btn btn-link\"><i class=\"fa fa-2x fa-pencil\"></i></button>\n            </td>\n          </tr>\n        </tbody>\n      </table>  \n      <pager model.two-way=\"customers\" \n              current-page.two-way=\"currentPage\"></pager>         \n  </div>\n</template>\n"; });
-define('text!categories/categories.html', ['module'], function(module) { module.exports = "<template>\n  <div>\n    <div class=\"header\">\n      <h2>Categories</h2>\n    </div>    \n  </div>\n</template>\n"; });
-define('text!shell/header.html', ['module'], function(module) { module.exports = "<template>  \n  <nav class=\"navbar navbar-inverse\" role=\"navigation\">\n    <!-- Brand and toggle get grouped for better mobile display -->\n    <div class=\"navbar-header\">\n      <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\".navbar-ex1-collapse\">\n        <span class=\"sr-only\">Toggle navigation</span>\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n      </button>\n      <a class=\"navbar-brand\" href=\"#\">\n        <img src=\"../../img/Northwind_Web_Logo.png\" style=\"height:40px;\"/>\n      </a>\n    </div>\n  \n    <!-- Collect the nav links, forms, and other content for toggling -->\n    <div class=\"collapse navbar-collapse navbar-ex1-collapse\">\n      <ul class=\"nav navbar-nav\">\n        <li repeat.for=\"item of router.navigation\" class=\"${item.isActive ? 'active' : ''}\">\n          <a href.bind=\"item.href\">\n            <i class=\"fa ${item.settings.icon}\"></i> ${item.title}\n          </a>\n        </li>\n      </ul>\n      <!--<form class=\"navbar-form navbar-right\" role=\"search\">\n        <div class=\"form-group\">\n          <input type=\"text\" class=\"form-control\" placeholder=\"Search\">\n        </div>\n        <button type=\"submit\" class=\"btn btn-default\">Submit</button>\n      </form>      -->\n    </div><!-- /.navbar-collapse -->\n  </nav>  \n</template>\n"; });
-define('text!shell/shell.html', ['module'], function(module) { module.exports = "<template>\n  <compose view=\"./header.html\"></compose>\n  <div class=\"container\">\n    <router-view></router-view>\n  </div>\n\n</template>\n"; });
-define('text!resources/dialogs/confirmation.html', ['module'], function(module) { module.exports = "<template>\n  <ai-dialog style=\"max-width:325px\">\n    <ai-dialog-header></ai-dialog-header>\n      <ai-dialog-body>\n        ${model.message}\n      </ai-dialog-body>\n      <ai-dialog-footer>\n        <button repeat.for=\"option of model.options\"\n            click.trigger=\"selectOption(option)\">\n              ${option}\n          </button>\n      </ai-dialog-footer>\n  </ai-dialog>\n</template>\n"; });
-define('text!resources/dialogs/message-box.html', ['module'], function(module) { module.exports = "<template>\n  <ai-dialog style=\"max-width:325px\">\n    <ai-dialog-header></ai-dialog-header>\n      <ai-dialog-body>\n        ${model.message}\n      </ai-dialog-body>\n      <ai-dialog-footer>\n        <button repeat.for=\"option of model.options\"\n            click.trigger=\"selectOption(option)\">\n              ${option}\n          </button>\n      </ai-dialog-footer>\n  </ai-dialog>\n</template>\n"; });
-define('text!resources/elements/Pager.html', ['module'], function(module) { module.exports = "<template>\n<ul class=\"pagination\">\n  <li class.bind=\"currentPageIndex === 0 ? 'disabled' : ''\">\n    <a href=\"#\" click.delegate=\"goToFirst()\" class.bind=\"currentPageIndex === 0 ? 'disabled' : ''\">\n      <i class=\"fa fa-fast-backward\"></i>\n    </a>\n  </li>\n  <li class.bind=\"currentPageIndex === 0 ? 'disabled' : ''\">\n    <a disabled.bind=\"currentPageIndex === 0\" href=\"#\" click.trigger=\"goToPreviousPage()\">\n      <i class=\"fa fa-backward\"></i>\n    </a>\n  </li>\n  <li repeat.for=\"page of pages\" class.bind=\"$index === currentPageIndex ? 'active' : ''\">\n    <a href=\"#\" click.delegate=\"goToPage($index)\"> ${$index + 1}</a>\n  </li>\n  <li class.bind=\"currentPageIndex === pages.length-1 ? 'disabled' : ''\">\n    <a href=\"#\" click.delegate=\"goToNextPage()\">\n      <i class=\"fa fa-forward\"></i>\n    </a>\n  </li>\n  <li class.bind=\"currentPageIndex === pages.length-1 ? 'disabled' : ''\">\n    <a href=\"#\" click.delegate=\"goToLast()\">\n      <i class=\"fa fa-fast-forward\"></i>\n    </a>\n  </li>\n</ul>\n</template>\n"; });
-define('text!resources/elements/PromiseButton.html', ['module'], function(module) { module.exports = "<template>\n  <button\n    disabled.bind=\"isDisabled\"\n    click.delegate=\"click($event)\" \n   class=\"btn btn-primary\">${Value}</button>\n</template>\n"; });
+define('text!categories/categories.html', ['module'], function(module) { module.exports = "<template>\r\n  <div>\r\n    <div class=\"header\">\r\n      <h2>Categories</h2>\r\n    </div>    \r\n  </div>\r\n</template>\r\n"; });
+define('text!orders/order-details.html', ['module'], function(module) { module.exports = "<template>\r\n    \r\n</template>\r\n"; });
+define('text!orders/orders.html', ['module'], function(module) { module.exports = "<template>\r\n  <require from=\"../resources/value-converters/filter\"></require>\r\n  <div class=\"row\">\r\n    <div class=\"col-xs-1\">\r\n      <a route-href=\"route:orderDetails;params.bind : { orderId: 'new'}\" class=\"btn\"><i class=\"fa fa-plus\"> Add New Order </i></a>\r\n    </div>\r\n  </div>\r\n  <div class=\"row\">\r\n    <div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-12\">\r\n      <div class=\"page-header\">\r\n        <h1>${title}</h1>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <div class=\"row\">\r\n    <input type=\"text\" class=\"col-md-4\" value.bind=\"searchTerm\" placeholder=\"search...\"></input>\r\n    <button class=\"btn-sm btn-success search-button\" if.bind=\"searchTerm.length > 0\" click.delegate=\"search()\"><i class=\"fa fa-search\"></i></button>\r\n    <button class=\"btn-sm btn-danger search-button\" if.bind=\"searchTerm.length > 0\" click.delegate=\"clearSearch()\"><i class=\"fa fa-times\"></i></button>\r\n  </div>\r\n  <div class=\"row\">\r\n    <table class=\"table table-striped table-hover\">\r\n      <thead>\r\n        <tr>\r\n          <th>Order Date</th>\r\n          <th>Shipped Date</td>\r\n          <th>Company</th>\r\n          <th>Ship Address</th>\r\n          <th>Ship City </th>  \r\n        </tr>\r\n      </thead>\r\n      <tbody>\r\n        <tr repeat.for=\"order of currentPage\">\r\n          <td>${order.OrderDate}</td>\r\n          <td>${order.ShippedDate}</td>\r\n          <td>${order.ShipName}</td>\r\n          <td>${order.ShipAddress}</td>\r\n          <td>${order.ShipCity}</td>\r\n          <td>\r\n            <button click.delegate=\"deleteOrder(order)\" class=\"btn btn-sm btn-danger\"><i class=\"fa fa-trash\"></i></button>\r\n            <a route-href=\"route: orderDetails; params.bind: {orderId: order.OrderID}\" class=\"btn btn-sm btn-primary\"><i class=\"fa fa-pencil\"></i></button>\r\n          </td>\r\n        </tr>\r\n      </tbody>\r\n    </table>\r\n    <pager model.two-way=\"orders\" current-page.two-way=\"currentPage\"></pager>\r\n  </div>\r\n</template>\r\n"; });
+define('text!customers/customerDetails.html', ['module'], function(module) { module.exports = "<template>\r\n  <div class=\"row\">\r\n    <div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-12\">\r\n      <form submit.delegate=\"save()\">\r\n        <legend>Customer Information</legend>\r\n        <h3 if.bind=\"controller.errors.length > 0\" class=\"text text-danger\">Form Errors</h3>\r\n        <ul class=\"errorSummary\" if.bind=\"controller.errors.length > 0\">\r\n          <li repeat.for=\"error of controller.errors\">\r\n           <span class=\"text text-danger\"> ${error.message}</span>\r\n          </li>\r\n        </ul>\r\n        <div class=\"form-group\">\r\n          <label for=\"CustomerId\">Customer Id:</label>\r\n          <input type=\"text\" class=\"form-control\" value.bind=\"customer.CustomerID & validate\" placeholder=\"Customer Id\">\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <label for=\"CompanyName\">Company Name:</label>\r\n          <input type=\"text\" class=\"form-control\" value.bind=\"customer.CompanyName & validate\" placeholder=\"Company Name\">\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <label for=\"CompanyName\">Contact Name:</label>\r\n          <input type=\"text\" class=\"form-control\" value.bind=\"customer.ContactName & validate\" placeholder=\"Contact Name\">\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <label for=\"Address\">Address:</label>\r\n          <input type=\"text\" class=\"form-control\" value.bind=\"customer.Address & validate\" placeholder=\"Address\">\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <label for=\"PostalCode\">Postal Code:</label>\r\n          <input type=\"text\" class=\"form-control\" value.bind=\"customer.PostalCode & validate\" placeholder=\"Postal Code\">\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <label for=\"Country\">Country:</label>\r\n          <input type=\"text\" class=\"form-control\" value.bind=\"customer.Country & validate\" placeholder=\"Country\">\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <label for=\"Phone\">Phone:</label>\r\n          <input type=\"text\" class=\"form-control\" value.bind=\"customer.Phone & validate\" placeholder=\"Phone\">\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <label for=\"Fax\">Fax:</label>\r\n          <input type=\"text\" class=\"form-control\" value.bind=\"customer.Fax & validate\" placeholder=\"Fax\">\r\n        </div>\r\n        <promise-button value=\"Save\" _disabled=\"true\"></promise-button>\r\n        <button type=\"submit\" click.trigger=\"save()\" class=\"btn btn-sm btn-primary\">Submit</button>\r\n        <a route-href=\"route: customers;\" class=\"btn btn-sm btn-primary\">Cancel</a>\r\n      </form>\r\n    </div>\r\n  </div>\r\n</template>\r\n"; });
+define('text!customers/customers.html', ['module'], function(module) { module.exports = "<template>\r\n  <require from=\"../resources/value-converters/filter\"></require>\r\n  <div class=\"row\">    \r\n    <div class=\"col-xs-1\">\r\n        <a route-href=\"route:customerDetails;params.bind : { customerId: 'new'}\" class=\"btn\"><i class=\"fa fa-plus\"> Add New Customer </i></a>\r\n    </div>    \r\n  </div>\r\n  <div class=\"row\">\r\n    <div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-12\">\r\n      <div class=\"page-header\">\r\n        <h1>Customers</h1>\r\n      </div>\r\n    </div>\r\n  </div>  \r\n  <div class=\"row\">\r\n                <input type=\"text\" class=\"col-md-4\" value.bind=\"searchTerm\" placeholder=\"search...\" ></input>\r\n                <button class=\"btn-sm btn-success search-button\" if.bind=\"searchTerm.length > 0\" click.delegate=\"search()\"><i class=\"fa fa-search\"></i></button>\r\n                <button class=\"btn-sm btn-danger search-button\" if.bind=\"searchTerm.length > 0\" click.delegate=\"clearSearch()\"><i class=\"fa fa-times\"></i></button>\r\n            </div> \r\n  <div class=\"row\">\r\n    <table class=\"table table-striped table-hover\">\r\n      <thead>\r\n        <tr>\r\n          <th>\r\n              Company Name\r\n            </th>\r\n          <th>Contact</th>\r\n          <th>Phone</th>\r\n        </tr>\r\n      </thead>\r\n      <tbody>\r\n        <tr repeat.for=\"customer of currentPage\">\r\n          <td>${customer.CompanyName}</td>\r\n          <td>${customer.ContactName}</td>\r\n          <td>${customer.Phone}</td>\r\n          <td>\r\n            <a route-href=\"route: orders; params.bind : {customerId: customer.CustomerID, customerName: customer.CompanyName}\" style=\"\" class=\"btn btn-link\"><i class=\"fa fa-2x fa-truck\"></i></a>\r\n            <button click.delegate=\"deleteCustomer(customer)\" class=\"btn btn-link\"><i class=\"fa fa-2x fa-trash\"></i></button>\r\n            <a route-href=\"route: customerDetails; params.bind: {customerId: customer.CustomerID}\" class=\"btn btn-link\"><i class=\"fa fa-2x fa-pencil\"></i></button>\r\n            </td>\r\n          </tr>\r\n        </tbody>\r\n      </table>  \r\n      <pager model.two-way=\"customers\" \r\n              current-page.two-way=\"currentPage\"></pager>         \r\n  </div>\r\n</template>\r\n"; });
+define('text!products/products.html', ['module'], function(module) { module.exports = "<template> \r\n</template>\r\n"; });
+define('text!shell/header.html', ['module'], function(module) { module.exports = "<template>  \r\n  <nav class=\"navbar navbar-inverse\" role=\"navigation\">\r\n    <!-- Brand and toggle get grouped for better mobile display -->\r\n    <div class=\"navbar-header\">\r\n      <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\".navbar-ex1-collapse\">\r\n        <span class=\"sr-only\">Toggle navigation</span>\r\n        <span class=\"icon-bar\"></span>\r\n        <span class=\"icon-bar\"></span>\r\n        <span class=\"icon-bar\"></span>\r\n      </button>\r\n      <a class=\"navbar-brand\" href=\"#\">\r\n        <img src=\"../../img/Northwind_Web_Logo.png\" style=\"height:40px;\"/>\r\n      </a>\r\n    </div>\r\n  \r\n    <!-- Collect the nav links, forms, and other content for toggling -->\r\n    <div class=\"collapse navbar-collapse navbar-ex1-collapse\">\r\n      <ul class=\"nav navbar-nav\">\r\n        <li repeat.for=\"item of router.navigation\" class=\"${item.isActive ? 'active' : ''}\">\r\n          <a href.bind=\"item.href\">\r\n            <i class=\"fa ${item.settings.icon}\"></i> ${item.title}\r\n          </a>\r\n        </li>\r\n      </ul>\r\n      <!--<form class=\"navbar-form navbar-right\" role=\"search\">\r\n        <div class=\"form-group\">\r\n          <input type=\"text\" class=\"form-control\" placeholder=\"Search\">\r\n        </div>\r\n        <button type=\"submit\" class=\"btn btn-default\">Submit</button>\r\n      </form>      -->\r\n    </div><!-- /.navbar-collapse -->\r\n  </nav>  \r\n</template>\r\n"; });
+define('text!shell/shell.html', ['module'], function(module) { module.exports = "<template>\r\n  <compose view=\"./header.html\"></compose>\r\n  <div class=\"container\">\r\n    <router-view></router-view>\r\n  </div>\r\n\r\n</template>\r\n"; });
+define('text!resources/elements/Pager.html', ['module'], function(module) { module.exports = "<template>\r\n<ul class=\"pagination\">\r\n  <li class.bind=\"currentPageIndex === 0 ? 'disabled' : ''\">\r\n    <a href=\"#\" click.delegate=\"goToFirst()\" class.bind=\"currentPageIndex === 0 ? 'disabled' : ''\">\r\n      <i class=\"fa fa-fast-backward\"></i>\r\n    </a>\r\n  </li>\r\n  <li class.bind=\"currentPageIndex === 0 ? 'disabled' : ''\">\r\n    <a disabled.bind=\"currentPageIndex === 0\" href=\"#\" click.trigger=\"goToPreviousPage()\">\r\n      <i class=\"fa fa-backward\"></i>\r\n    </a>\r\n  </li>\r\n  <li repeat.for=\"page of pages\" class.bind=\"$index === currentPageIndex ? 'active' : ''\">\r\n    <a href=\"#\" click.delegate=\"goToPage($index)\"> ${$index + 1}</a>\r\n  </li>\r\n  <li class.bind=\"currentPageIndex === pages.length-1 ? 'disabled' : ''\">\r\n    <a href=\"#\" click.delegate=\"goToNextPage()\">\r\n      <i class=\"fa fa-forward\"></i>\r\n    </a>\r\n  </li>\r\n  <li class.bind=\"currentPageIndex === pages.length-1 ? 'disabled' : ''\">\r\n    <a href=\"#\" click.delegate=\"goToLast()\">\r\n      <i class=\"fa fa-fast-forward\"></i>\r\n    </a>\r\n  </li>\r\n</ul>\r\n</template>\r\n"; });
+define('text!resources/elements/PromiseButton.html', ['module'], function(module) { module.exports = "<template>\r\n  <button\r\n    disabled.bind=\"isDisabled\"\r\n    click.delegate=\"click($event)\" \r\n   class=\"btn btn-primary\">${Value}</button>\r\n</template>\r\n"; });
+define('text!resources/dialogs/confirmation.html', ['module'], function(module) { module.exports = "<template>\r\n  <ai-dialog style=\"max-width:325px\">\r\n    <ai-dialog-header></ai-dialog-header>\r\n      <ai-dialog-body>\r\n        ${model.message}\r\n      </ai-dialog-body>\r\n      <ai-dialog-footer>\r\n        <button repeat.for=\"option of model.options\"\r\n            click.trigger=\"selectOption(option)\">\r\n              ${option}\r\n          </button>\r\n      </ai-dialog-footer>\r\n  </ai-dialog>\r\n</template>\r\n"; });
+define('text!resources/dialogs/message-box.html', ['module'], function(module) { module.exports = "<template>\r\n  <ai-dialog style=\"max-width:325px\">\r\n    <ai-dialog-header></ai-dialog-header>\r\n      <ai-dialog-body>\r\n        ${model.message}\r\n      </ai-dialog-body>\r\n      <ai-dialog-footer>\r\n        <button repeat.for=\"option of model.options\"\r\n            click.trigger=\"selectOption(option)\">\r\n              ${option}\r\n          </button>\r\n      </ai-dialog-footer>\r\n  </ai-dialog>\r\n</template>\r\n"; });
+define('text!resources/elements/pager.html', ['module'], function(module) { module.exports = "<template>\r\n<ul class=\"pagination\">\r\n  <li class.bind=\"currentPageIndex === 0 ? 'disabled' : ''\">\r\n    <a href=\"#\" click.delegate=\"goToFirst()\" class.bind=\"currentPageIndex === 0 ? 'disabled' : ''\">\r\n      <i class=\"fa fa-fast-backward\"></i>\r\n    </a>\r\n  </li>\r\n  <li class.bind=\"currentPageIndex === 0 ? 'disabled' : ''\">\r\n    <a disabled.bind=\"currentPageIndex === 0\" href=\"#\" click.trigger=\"goToPreviousPage()\">\r\n      <i class=\"fa fa-backward\"></i>\r\n    </a>\r\n  </li>\r\n  <li repeat.for=\"page of pages\" class.bind=\"$index === currentPageIndex ? 'active' : ''\">\r\n    <a href=\"#\" click.delegate=\"goToPage($index)\"> ${$index + 1}</a>\r\n  </li>\r\n  <li class.bind=\"currentPageIndex === pages.length-1 ? 'disabled' : ''\">\r\n    <a href=\"#\" click.delegate=\"goToNextPage()\">\r\n      <i class=\"fa fa-forward\"></i>\r\n    </a>\r\n  </li>\r\n  <li class.bind=\"currentPageIndex === pages.length-1 ? 'disabled' : ''\">\r\n    <a href=\"#\" click.delegate=\"goToLast()\">\r\n      <i class=\"fa fa-fast-forward\"></i>\r\n    </a>\r\n  </li>\r\n</ul>\r\n</template>\r\n"; });
 //# sourceMappingURL=app-bundle.js.map

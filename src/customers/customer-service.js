@@ -42,7 +42,6 @@ export class CustomerService {
 
   delete(Id){
     return this.client
-            .fetch(`customers/${Id}`,{method: 'delete'})
-            .then(() => this.getCustomers() );
+            .fetch(`customers/${Id}`,{method: 'delete'});
   }
 }

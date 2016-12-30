@@ -21,24 +21,18 @@
     <table class="table table-striped table-hover">
       <thead>
         <tr>
-          <th>
-            Order Date
-          </th>
-          <th>Shipped?</td>
-          <th>Employee</th>
-          <th>Shipper</th>
+          <th>Order Date</th>
+          <th>Shipped Date</td>
           <th>Company</th>
           <th>Ship Address</th>
-          <th>Ship City </th>          
+          <th>Ship City </th>  
         </tr>
       </thead>
       <tbody>
         <tr repeat.for="order of currentPage">
           <td>${order.OrderDate}</td>
-          <td>${order.Shipped}</td>
-          <td>${order.Employee}</td>
-          <td>${order.Shipper}</td>
-          <td>${order.CompanyName}</td>
+          <td>${order.ShippedDate}</td>
+          <td>${order.ShipName}</td>
           <td>${order.ShipAddress}</td>
           <td>${order.ShipCity}</td>
           <td>
