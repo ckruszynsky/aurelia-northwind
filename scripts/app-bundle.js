@@ -47,87 +47,6 @@ define('main',['exports', './environment'], function (exports, _environment) {
     });
   }
 });
-define('products/products-service',['exports', 'aurelia-framework', 'aurelia-fetch-client'], function (exports, _aureliaFramework, _aureliaFetchClient) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.productService = undefined;
-
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
-
-  var _dec, _class;
-
-  var productService = exports.productService = (_dec = (0, _aureliaFramework.inject)(_aureliaFetchClient.HttpClient), _dec(_class = function () {
-    function productService(client) {
-      _classCallCheck(this, productService);
-
-      this.client = client;
-    }
-
-    productService.prototype.getorders = function getorders() {
-      return this.client.fetch("orders").then(function (response) {
-        return response.json();
-      });
-    };
-
-    productService.prototype.get = function get(Id) {
-      return this.client.fetch('orders/' + Id).then(function (response) {
-        return response.json();
-      });
-    };
-
-    productService.prototype.update = function update(product) {
-      var _this = this;
-
-      return this.client.fetch('orders/' + product.ProductID, { method: 'put', body: (0, _aureliaFetchClient.json)(product) }).then(function () {
-        return _this.get(product.ProductID);
-      });
-    };
-
-    productService.prototype.save = function save(product) {
-      var _this2 = this;
-
-      return this.client.fetch('orders/' + product.ProductID, { method: 'post', body: (0, _aureliaFetchClient.json)(product) }).then(function () {
-        return _this2.get(product.ProductID);
-      });
-    };
-
-    productService.prototype.delete = function _delete(Id) {
-      var _this3 = this;
-
-      return this.client.fetch('orders/' + Id, { method: 'delete' }).then(function () {
-        return _this3.getorders();
-      });
-    };
-
-    return productService;
-  }()) || _class);
-});
-define('products/products',["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
-
-  var Products = function Products() {
-    _classCallCheck(this, Products);
-  };
-
-  exports.default = Products;
-});
 define('categories/categories',["exports"], function (exports) {
   "use strict";
 
@@ -208,160 +127,6 @@ define('categories/category-service',['exports', 'aurelia-framework', 'aurelia-f
 
     return categoryService;
   }()) || _class);
-});
-define('orders/orders-service',['exports', 'aurelia-framework', 'aurelia-fetch-client'], function (exports, _aureliaFramework, _aureliaFetchClient) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.OrderService = undefined;
-
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
-
-  var _dec, _class;
-
-  var OrderService = exports.OrderService = (_dec = (0, _aureliaFramework.inject)(_aureliaFetchClient.HttpClient), _dec(_class = function () {
-    function OrderService(client) {
-      _classCallCheck(this, OrderService);
-
-      this.client = client;
-    }
-
-    OrderService.prototype.getOrders = function getOrders() {
-      return this.client.fetch("orders").then(function (response) {
-        return response.json();
-      });
-    };
-
-    OrderService.prototype.getCustomerOrders = function getCustomerOrders(customerId) {
-      return this.client.fetch('customer/' + customerId + '/orders').then(function (response) {
-        return response.json();
-      });
-    };
-
-    OrderService.prototype.get = function get(Id) {
-      return this.client.fetch('orders/' + Id).then(function (response) {
-        return response.json();
-      });
-    };
-
-    OrderService.prototype.update = function update(order) {
-      var _this = this;
-
-      return this.client.fetch('orders/' + order.OrderID, { method: 'put', body: (0, _aureliaFetchClient.json)(order) }).then(function () {
-        return _this.get(order.OrderID);
-      });
-    };
-
-    OrderService.prototype.save = function save(order) {
-      var _this2 = this;
-
-      return this.client.fetch('orders/' + order.OrderID, { method: 'post', body: (0, _aureliaFetchClient.json)(order) }).then(function () {
-        return _this2.get(order.OrderID);
-      });
-    };
-
-    OrderService.prototype.delete = function _delete(Id) {
-      var _this3 = this;
-
-      return this.client.fetch('orders/' + Id, { method: 'delete' }).then(function () {
-        return _this3.getorders();
-      });
-    };
-
-    return OrderService;
-  }()) || _class);
-});
-define('orders/orders',['exports', 'aurelia-framework', './orders-service'], function (exports, _aureliaFramework, _ordersService) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = undefined;
-
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
-
-  var _dec, _class;
-
-  var Orders = (_dec = (0, _aureliaFramework.inject)(_ordersService.OrderService), _dec(_class = function () {
-    function Orders(orderService) {
-      _classCallCheck(this, Orders);
-
-      this.orderService = null;
-      this.orders = [];
-      this.searchTerm = "";
-      this.title = "Orders";
-
-      this.orderService = orderService;
-    }
-
-    Orders.prototype.activate = function activate(params) {
-      if (params.customerId) {
-        this.customerId = params.customerId;
-        this.title = params.customerName + ' Orders';
-      }
-
-      return Promise.all([this.loadOrders()]);
-    };
-
-    Orders.prototype.loadOrders = function loadOrders() {
-      var _this = this;
-
-      if (this.customerId) {
-        return this.orderService.getCustomerOrders(this.customerId).then(function (orders) {
-          return _this.orders = orders;
-        });
-      } else {
-        return this.orderService.getOrders().then(function (orders) {
-          return _this.orders = orders;
-        });
-      }
-    };
-
-    Orders.prototype.deleteOrder = function deleteOrder() {
-      var _this2 = this;
-
-      return this.orderService.deleteOrder().then(function (resp) {
-        return _this2.loadOrders();
-      });
-    };
-
-    Orders.prototype.clearSearch = function clearSearch() {
-      this.searchTerm = "";
-      if (this.unfilteredOrders) {
-        this.orders = this.unfilteredOrders;
-      }
-    };
-
-    Orders.prototype.search = function search() {
-      var _this3 = this;
-
-      this.unfilteredOrders = this.orders;
-      this.orders = this.orders.filter(function (order) {
-        var matches = _this3.orderSearch(_this3.searchTerm, order);
-        return matches;
-      });
-    };
-
-    Orders.prototype.orderSearch = function orderSearch(searchExpression, order) {
-      if (!searchExpression || !order) return false;
-
-      return order.CompanyName.toUpperCase().indexOf(searchExpression.toUpperCase()) !== -1 || order.Employee.toUpperCase().indexOf(searchExpression.toUpperCase()) !== -1 || order.Shipper.toUpperCase().indexOf(searchExpression.toUpperCase()) !== -1;
-    };
-
-    return Orders;
-  }()) || _class);
-  exports.default = Orders;
 });
 define('customers/customer-service',['exports', 'aurelia-framework', 'aurelia-fetch-client'], function (exports, _aureliaFramework, _aureliaFetchClient) {
   'use strict';
@@ -603,6 +368,177 @@ define('customers/customers',['exports', 'aurelia-framework', './customer-servic
     return Customers;
   }()) || _class);
 });
+define('orders/order-details',["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+
+  var OrderDetails = exports.OrderDetails = function OrderDetails() {
+    _classCallCheck(this, OrderDetails);
+  };
+});
+define('orders/orders-service',['exports', 'aurelia-framework', 'aurelia-fetch-client'], function (exports, _aureliaFramework, _aureliaFetchClient) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.OrderService = undefined;
+
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+
+  var _dec, _class;
+
+  var OrderService = exports.OrderService = (_dec = (0, _aureliaFramework.inject)(_aureliaFetchClient.HttpClient), _dec(_class = function () {
+    function OrderService(client) {
+      _classCallCheck(this, OrderService);
+
+      this.client = client;
+    }
+
+    OrderService.prototype.getOrders = function getOrders() {
+      return this.client.fetch("orders").then(function (response) {
+        return response.json();
+      });
+    };
+
+    OrderService.prototype.getCustomerOrders = function getCustomerOrders(customerId) {
+      return this.client.fetch('customer/' + customerId + '/orders').then(function (response) {
+        return response.json();
+      });
+    };
+
+    OrderService.prototype.get = function get(Id) {
+      return this.client.fetch('orders/' + Id).then(function (response) {
+        return response.json();
+      });
+    };
+
+    OrderService.prototype.update = function update(order) {
+      var _this = this;
+
+      return this.client.fetch('orders/' + order.OrderID, { method: 'put', body: (0, _aureliaFetchClient.json)(order) }).then(function () {
+        return _this.get(order.OrderID);
+      });
+    };
+
+    OrderService.prototype.save = function save(order) {
+      var _this2 = this;
+
+      return this.client.fetch('orders/' + order.OrderID, { method: 'post', body: (0, _aureliaFetchClient.json)(order) }).then(function () {
+        return _this2.get(order.OrderID);
+      });
+    };
+
+    OrderService.prototype.delete = function _delete(Id) {
+      var _this3 = this;
+
+      return this.client.fetch('orders/' + Id, { method: 'delete' }).then(function () {
+        return _this3.getorders();
+      });
+    };
+
+    return OrderService;
+  }()) || _class);
+});
+define('orders/orders',['exports', 'aurelia-framework', './orders-service'], function (exports, _aureliaFramework, _ordersService) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = undefined;
+
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+
+  var _dec, _class;
+
+  var Orders = (_dec = (0, _aureliaFramework.inject)(_ordersService.OrderService), _dec(_class = function () {
+    function Orders(orderService) {
+      _classCallCheck(this, Orders);
+
+      this.orderService = null;
+      this.orders = [];
+      this.searchTerm = "";
+      this.title = "Orders";
+
+      this.orderService = orderService;
+    }
+
+    Orders.prototype.activate = function activate(params) {
+      if (params.customerId) {
+        this.customerId = params.customerId;
+        this.title = params.customerName + ' Orders';
+      }
+
+      return Promise.all([this.loadOrders()]);
+    };
+
+    Orders.prototype.loadOrders = function loadOrders() {
+      var _this = this;
+
+      if (this.customerId) {
+        return this.orderService.getCustomerOrders(this.customerId).then(function (orders) {
+          return _this.orders = orders;
+        });
+      } else {
+        return this.orderService.getOrders().then(function (orders) {
+          return _this.orders = orders;
+        });
+      }
+    };
+
+    Orders.prototype.deleteOrder = function deleteOrder() {
+      var _this2 = this;
+
+      return this.orderService.deleteOrder().then(function (resp) {
+        return _this2.loadOrders();
+      });
+    };
+
+    Orders.prototype.clearSearch = function clearSearch() {
+      this.searchTerm = "";
+      if (this.unfilteredOrders) {
+        this.orders = this.unfilteredOrders;
+      }
+    };
+
+    Orders.prototype.search = function search() {
+      var _this3 = this;
+
+      this.unfilteredOrders = this.orders;
+      this.orders = this.orders.filter(function (order) {
+        var matches = _this3.orderSearch(_this3.searchTerm, order);
+        return matches;
+      });
+    };
+
+    Orders.prototype.orderSearch = function orderSearch(searchExpression, order) {
+      if (!searchExpression || !order) return false;
+
+      return order.CompanyName.toUpperCase().indexOf(searchExpression.toUpperCase()) !== -1 || order.Employee.toUpperCase().indexOf(searchExpression.toUpperCase()) !== -1 || order.Shipper.toUpperCase().indexOf(searchExpression.toUpperCase()) !== -1;
+    };
+
+    return Orders;
+  }()) || _class);
+  exports.default = Orders;
+});
 define('regions/region-service',['exports', 'aurelia-framework', 'aurelia-fetch-client'], function (exports, _aureliaFramework, _aureliaFetchClient) {
   'use strict';
 
@@ -665,18 +601,148 @@ define('regions/region-service',['exports', 'aurelia-framework', 'aurelia-fetch-
     return regionService;
   }()) || _class);
 });
-define('resources/index',['exports'], function (exports) {
+define('products/products-service',['exports', 'aurelia-framework', 'aurelia-fetch-client'], function (exports, _aureliaFramework, _aureliaFetchClient) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.configure = configure;
-  function configure(config) {
-    config.globalResources('./elements/Pager');
-    config.globalResources('./elements/PromiseButton');
-    config.globalResources('./value-converters/filter');
+  exports.productService = undefined;
+
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
   }
+
+  var _dec, _class;
+
+  var productService = exports.productService = (_dec = (0, _aureliaFramework.inject)(_aureliaFetchClient.HttpClient), _dec(_class = function () {
+    function productService(client) {
+      _classCallCheck(this, productService);
+
+      this.client = client;
+    }
+
+    productService.prototype.getorders = function getorders() {
+      return this.client.fetch("orders").then(function (response) {
+        return response.json();
+      });
+    };
+
+    productService.prototype.get = function get(Id) {
+      return this.client.fetch('orders/' + Id).then(function (response) {
+        return response.json();
+      });
+    };
+
+    productService.prototype.update = function update(product) {
+      var _this = this;
+
+      return this.client.fetch('orders/' + product.ProductID, { method: 'put', body: (0, _aureliaFetchClient.json)(product) }).then(function () {
+        return _this.get(product.ProductID);
+      });
+    };
+
+    productService.prototype.save = function save(product) {
+      var _this2 = this;
+
+      return this.client.fetch('orders/' + product.ProductID, { method: 'post', body: (0, _aureliaFetchClient.json)(product) }).then(function () {
+        return _this2.get(product.ProductID);
+      });
+    };
+
+    productService.prototype.delete = function _delete(Id) {
+      var _this3 = this;
+
+      return this.client.fetch('orders/' + Id, { method: 'delete' }).then(function () {
+        return _this3.getorders();
+      });
+    };
+
+    return productService;
+  }()) || _class);
+});
+define('products/products',["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+
+  var Products = function Products() {
+    _classCallCheck(this, Products);
+  };
+
+  exports.default = Products;
+});
+define('shippers/shipper-service',['exports', 'aurelia-framework', 'aurelia-fetch-client'], function (exports, _aureliaFramework, _aureliaFetchClient) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.shipperService = undefined;
+
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+
+  var _dec, _class;
+
+  var shipperService = exports.shipperService = (_dec = (0, _aureliaFramework.inject)(_aureliaFetchClient.HttpClient), _dec(_class = function () {
+    function shipperService(client) {
+      _classCallCheck(this, shipperService);
+
+      this.client = client;
+    }
+
+    shipperService.prototype.getorders = function getorders() {
+      return this.client.fetch("shippers").then(function (response) {
+        return response.json();
+      });
+    };
+
+    shipperService.prototype.get = function get(Id) {
+      return this.client.fetch('shippers/' + Id).then(function (response) {
+        return response.json();
+      });
+    };
+
+    shipperService.prototype.update = function update(shipper) {
+      var _this = this;
+
+      return this.client.fetch('shippers/' + shipper.ShipperID, { method: 'put', body: (0, _aureliaFetchClient.json)(shipper) }).then(function () {
+        return _this.get(shipper.ShipperID);
+      });
+    };
+
+    shipperService.prototype.save = function save(shipper) {
+      var _this2 = this;
+
+      return this.client.fetch('shippers/' + shipper.ShipperID, { method: 'post', body: (0, _aureliaFetchClient.json)(shipper) }).then(function () {
+        return _this2.get(shipper.ShipperID);
+      });
+    };
+
+    shipperService.prototype.delete = function _delete(Id) {
+      var _this3 = this;
+
+      return this.client.fetch('shippers/' + Id, { method: 'delete' }).then(function () {
+        return _this3.getorders();
+      });
+    };
+
+    return shipperService;
+  }()) || _class);
 });
 define('shell/routes',['exports'], function (exports) {
   'use strict';
@@ -773,67 +839,18 @@ define('shell/shell',['exports', './routes', 'aurelia-framework', 'aurelia-fetch
     return Shell;
   }()) || _class);
 });
-define('shippers/shipper-service',['exports', 'aurelia-framework', 'aurelia-fetch-client'], function (exports, _aureliaFramework, _aureliaFetchClient) {
+define('resources/index',['exports'], function (exports) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.shipperService = undefined;
-
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
+  exports.configure = configure;
+  function configure(config) {
+    config.globalResources('./elements/Pager');
+    config.globalResources('./elements/PromiseButton');
+    config.globalResources('./value-converters/filter');
   }
-
-  var _dec, _class;
-
-  var shipperService = exports.shipperService = (_dec = (0, _aureliaFramework.inject)(_aureliaFetchClient.HttpClient), _dec(_class = function () {
-    function shipperService(client) {
-      _classCallCheck(this, shipperService);
-
-      this.client = client;
-    }
-
-    shipperService.prototype.getorders = function getorders() {
-      return this.client.fetch("shippers").then(function (response) {
-        return response.json();
-      });
-    };
-
-    shipperService.prototype.get = function get(Id) {
-      return this.client.fetch('shippers/' + Id).then(function (response) {
-        return response.json();
-      });
-    };
-
-    shipperService.prototype.update = function update(shipper) {
-      var _this = this;
-
-      return this.client.fetch('shippers/' + shipper.ShipperID, { method: 'put', body: (0, _aureliaFetchClient.json)(shipper) }).then(function () {
-        return _this.get(shipper.ShipperID);
-      });
-    };
-
-    shipperService.prototype.save = function save(shipper) {
-      var _this2 = this;
-
-      return this.client.fetch('shippers/' + shipper.ShipperID, { method: 'post', body: (0, _aureliaFetchClient.json)(shipper) }).then(function () {
-        return _this2.get(shipper.ShipperID);
-      });
-    };
-
-    shipperService.prototype.delete = function _delete(Id) {
-      var _this3 = this;
-
-      return this.client.fetch('shippers/' + Id, { method: 'delete' }).then(function () {
-        return _this3.getorders();
-      });
-    };
-
-    return shipperService;
-  }()) || _class);
 });
 define('suppliers/supplier-service',['exports', 'aurelia-framework', 'aurelia-fetch-client'], function (exports, _aureliaFramework, _aureliaFetchClient) {
   'use strict';
@@ -957,6 +974,143 @@ define('terroritories/territory-service',['exports', 'aurelia-framework', 'aurel
     };
 
     return territoryService;
+  }()) || _class);
+});
+define('resources/dialogs/common-dialogs',['exports', 'aurelia-framework', 'aurelia-dialog', './message-box', './confirmation'], function (exports, _aureliaFramework, _aureliaDialog, _messageBox, _confirmation) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.CommonDialogs = undefined;
+
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+
+  var _dec, _class;
+
+  var CommonDialogs = exports.CommonDialogs = (_dec = (0, _aureliaFramework.inject)(_aureliaDialog.DialogService), _dec(_class = function () {
+    function CommonDialogs(dialogService) {
+      _classCallCheck(this, CommonDialogs);
+
+      this.dialogService = dialogService;
+    }
+
+    CommonDialogs.prototype.showCustom = function showCustom(viewModel, model, options) {
+      return this.dialogService.open({
+        viewModel: viewModel,
+        model: model
+      });
+    };
+
+    CommonDialogs.prototype.showMessage = function showMessage(message) {
+      var title = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "Message";
+      var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : ['OK'];
+
+      return this.dialogService.open({
+        viewModel: _messageBox.MessageBox,
+        model: { message: message, title: title, options: options }
+      });
+    };
+
+    CommonDialogs.prototype.confirmation = function confirmation(message) {
+      var title = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "Confirmation";
+      var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : ['Yes', 'No'];
+
+      return this.dialogService.open({
+        viewModel: _confirmation.Confirmation,
+        model: { message: message, title: title, options: options }
+      });
+    };
+
+    return CommonDialogs;
+  }()) || _class);
+});
+define('resources/dialogs/confirmation',['exports', 'aurelia-dialog', 'aurelia-framework'], function (exports, _aureliaDialog, _aureliaFramework) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.Confirmation = undefined;
+
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+
+  var _dec, _class;
+
+  var Confirmation = exports.Confirmation = (_dec = (0, _aureliaFramework.inject)(_aureliaDialog.DialogController), _dec(_class = function () {
+    function Confirmation(dialogController) {
+      _classCallCheck(this, Confirmation);
+
+      this.dialogController = dialogController;
+    }
+
+    Confirmation.prototype.activate = function activate(model) {
+      this.model = model;
+    };
+
+    Confirmation.prototype.selectOption = function selectOption(option) {
+      if (this.isCancel(option)) {
+        this.dialogController.cancel(option);
+      } else {
+        this.dialogController.ok(option);
+      }
+    };
+
+    Confirmation.prototype.isCancel = function isCancel(option) {
+      return ['cancel', 'no'].indexOf(option.toLowerCase()) !== -1;
+    };
+
+    return Confirmation;
+  }()) || _class);
+});
+define('resources/dialogs/message-box',['exports', 'aurelia-dialog', 'aurelia-framework'], function (exports, _aureliaDialog, _aureliaFramework) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.MessageBox = undefined;
+
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+
+  var _dec, _class;
+
+  var MessageBox = exports.MessageBox = (_dec = (0, _aureliaFramework.inject)(_aureliaDialog.DialogController), _dec(_class = function () {
+    function MessageBox(dialogController) {
+      _classCallCheck(this, MessageBox);
+
+      this.dialogController = dialogController;
+    }
+
+    MessageBox.prototype.activate = function activate(model) {
+      this.model = model;
+    };
+
+    MessageBox.prototype.selectOption = function selectOption(option) {
+      if (this.isCancel(option)) {
+        this.dialogController.cancel(option);
+      } else {
+        this.dialogController.ok(option);
+      }
+    };
+
+    MessageBox.prototype.isCancel = function isCancel(option) {
+      return ['cancel', 'no'].indexOf(option.toLowerCase()) !== -1;
+    };
+
+    return MessageBox;
   }()) || _class);
 });
 define('resources/elements/Pager',['exports', 'aurelia-framework'], function (exports, _aureliaFramework) {
@@ -1267,171 +1421,6 @@ define('resources/elements/PromiseButton',['exports', 'aurelia-framework', 'Spin
     }
   })), _class2)) || _class);
 });
-define('resources/dialogs/common-dialogs',['exports', 'aurelia-framework', 'aurelia-dialog', './message-box', './confirmation'], function (exports, _aureliaFramework, _aureliaDialog, _messageBox, _confirmation) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.CommonDialogs = undefined;
-
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
-
-  var _dec, _class;
-
-  var CommonDialogs = exports.CommonDialogs = (_dec = (0, _aureliaFramework.inject)(_aureliaDialog.DialogService), _dec(_class = function () {
-    function CommonDialogs(dialogService) {
-      _classCallCheck(this, CommonDialogs);
-
-      this.dialogService = dialogService;
-    }
-
-    CommonDialogs.prototype.showCustom = function showCustom(viewModel, model, options) {
-      return this.dialogService.open({
-        viewModel: viewModel,
-        model: model
-      });
-    };
-
-    CommonDialogs.prototype.showMessage = function showMessage(message) {
-      var title = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "Message";
-      var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : ['OK'];
-
-      return this.dialogService.open({
-        viewModel: _messageBox.MessageBox,
-        model: { message: message, title: title, options: options }
-      });
-    };
-
-    CommonDialogs.prototype.confirmation = function confirmation(message) {
-      var title = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "Confirmation";
-      var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : ['Yes', 'No'];
-
-      return this.dialogService.open({
-        viewModel: _confirmation.Confirmation,
-        model: { message: message, title: title, options: options }
-      });
-    };
-
-    return CommonDialogs;
-  }()) || _class);
-});
-define('resources/dialogs/confirmation',['exports', 'aurelia-dialog', 'aurelia-framework'], function (exports, _aureliaDialog, _aureliaFramework) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.Confirmation = undefined;
-
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
-
-  var _dec, _class;
-
-  var Confirmation = exports.Confirmation = (_dec = (0, _aureliaFramework.inject)(_aureliaDialog.DialogController), _dec(_class = function () {
-    function Confirmation(dialogController) {
-      _classCallCheck(this, Confirmation);
-
-      this.dialogController = dialogController;
-    }
-
-    Confirmation.prototype.activate = function activate(model) {
-      this.model = model;
-    };
-
-    Confirmation.prototype.selectOption = function selectOption(option) {
-      if (this.isCancel(option)) {
-        this.dialogController.cancel(option);
-      } else {
-        this.dialogController.ok(option);
-      }
-    };
-
-    Confirmation.prototype.isCancel = function isCancel(option) {
-      return ['cancel', 'no'].indexOf(option.toLowerCase()) !== -1;
-    };
-
-    return Confirmation;
-  }()) || _class);
-});
-define('resources/dialogs/message-box',['exports', 'aurelia-dialog', 'aurelia-framework'], function (exports, _aureliaDialog, _aureliaFramework) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.MessageBox = undefined;
-
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
-
-  var _dec, _class;
-
-  var MessageBox = exports.MessageBox = (_dec = (0, _aureliaFramework.inject)(_aureliaDialog.DialogController), _dec(_class = function () {
-    function MessageBox(dialogController) {
-      _classCallCheck(this, MessageBox);
-
-      this.dialogController = dialogController;
-    }
-
-    MessageBox.prototype.activate = function activate(model) {
-      this.model = model;
-    };
-
-    MessageBox.prototype.selectOption = function selectOption(option) {
-      if (this.isCancel(option)) {
-        this.dialogController.cancel(option);
-      } else {
-        this.dialogController.ok(option);
-      }
-    };
-
-    MessageBox.prototype.isCancel = function isCancel(option) {
-      return ['cancel', 'no'].indexOf(option.toLowerCase()) !== -1;
-    };
-
-    return MessageBox;
-  }()) || _class);
-});
-define('resources/value-converters/filter',["exports"], function (exports) {
-     "use strict";
-
-     Object.defineProperty(exports, "__esModule", {
-          value: true
-     });
-
-     function _classCallCheck(instance, Constructor) {
-          if (!(instance instanceof Constructor)) {
-               throw new TypeError("Cannot call a class as a function");
-          }
-     }
-
-     var FilterValueConverter = exports.FilterValueConverter = function () {
-          function FilterValueConverter() {
-               _classCallCheck(this, FilterValueConverter);
-          }
-
-          FilterValueConverter.prototype.toView = function toView(array, searchTerm, filterFunc) {
-               return array.filter(function (item) {
-                    var matches = searchTerm && searchTerm.length > 0 ? filterFunc(searchTerm, item) : true;
-                    return matches;
-               });
-          };
-
-          return FilterValueConverter;
-     }();
-});
 define('resources/renderer/bootstrap-form-renderer',['exports', 'aurelia-validation'], function (exports, _aureliaValidation) {
   'use strict';
 
@@ -1554,6 +1543,34 @@ define('resources/renderer/bootstrap-form-renderer',['exports', 'aurelia-validat
 
     return BootstrapFormRenderer;
   }();
+});
+define('resources/value-converters/filter',["exports"], function (exports) {
+     "use strict";
+
+     Object.defineProperty(exports, "__esModule", {
+          value: true
+     });
+
+     function _classCallCheck(instance, Constructor) {
+          if (!(instance instanceof Constructor)) {
+               throw new TypeError("Cannot call a class as a function");
+          }
+     }
+
+     var FilterValueConverter = exports.FilterValueConverter = function () {
+          function FilterValueConverter() {
+               _classCallCheck(this, FilterValueConverter);
+          }
+
+          FilterValueConverter.prototype.toView = function toView(array, searchTerm, filterFunc) {
+               return array.filter(function (item) {
+                    var matches = searchTerm && searchTerm.length > 0 ? filterFunc(searchTerm, item) : true;
+                    return matches;
+               });
+          };
+
+          return FilterValueConverter;
+     }();
 });
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -3764,27 +3781,11 @@ define('aurelia-dialog/dialog-service',['exports', 'aurelia-metadata', 'aurelia-
     }
   }
 });
-define('orders/order-details',["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
-
-  var OrderDetails = exports.OrderDetails = function OrderDetails() {
-    _classCallCheck(this, OrderDetails);
-  };
-});
 define('text!products/products.html', ['module'], function(module) { module.exports = "<template> \n</template>\n"; });
+define('text!orders/order-details.html', ['module'], function(module) { module.exports = "<template></template>\n"; });
+define('text!orders/orders.html', ['module'], function(module) { module.exports = "<template>\n  <require from=\"../resources/value-converters/filter\"></require>\n  <div class=\"row\">\n    <div class=\"col-xs-1\">\n      <a route-href=\"route:orderDetails;params.bind : { orderId: 'new'}\" class=\"btn\"><i class=\"fa fa-plus\"> Add New Order </i></a>\n    </div>\n  </div>\n  <div class=\"row\">\n    <div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-12\">\n      <div class=\"page-header\">\n        <h1>${title}</h1>\n      </div>\n    </div>\n  </div>\n  <div class=\"row\">\n    <input type=\"text\" class=\"col-md-4\" value.bind=\"searchTerm\" placeholder=\"search...\"></input>\n    <button class=\"btn-sm btn-success search-button\" if.bind=\"searchTerm.length > 0\" click.delegate=\"search()\"><i class=\"fa fa-search\"></i></button>\n    <button class=\"btn-sm btn-danger search-button\" if.bind=\"searchTerm.length > 0\" click.delegate=\"clearSearch()\"><i class=\"fa fa-times\"></i></button>\n  </div>\n  <div class=\"row\">\n    <table class=\"table table-striped table-hover\">\n      <thead>\n        <tr>\n          <th>\n            Order Date\n          </th>\n          <th>Shipped?</td>\n          <th>Employee</th>\n          <th>Shipper</th>\n          <th>Company</th>\n          <th>Ship Address</th>\n          <th>Ship City </th>          \n        </tr>\n      </thead>\n      <tbody>\n        <tr repeat.for=\"order of currentPage\">\n          <td>${order.OrderDate}</td>\n          <td>${order.Shipped}</td>\n          <td>${order.Employee}</td>\n          <td>${order.Shipper}</td>\n          <td>${order.CompanyName}</td>\n          <td>${order.ShipAddress}</td>\n          <td>${order.ShipCity}</td>\n          <td>\n            <button click.delegate=\"deleteOrder(order)\" class=\"btn btn-sm btn-danger\"><i class=\"fa fa-trash\"></i></button>\n            <a route-href=\"route: orderDetails; params.bind: {orderId: order.OrderID}\" class=\"btn btn-sm btn-primary\"><i class=\"fa fa-pencil\"></i></button>\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <pager model.two-way=\"orders\" current-page.two-way=\"currentPage\"></pager>\n  </div>\n</template>\n"; });
 define('text!customers/customerDetails.html', ['module'], function(module) { module.exports = "<template>\n  <div class=\"row\">\n    <div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-12\">\n      <form submit.delegate=\"save()\">\n        <legend>Customer Information</legend>\n        <h3 if.bind=\"controller.errors.length > 0\" class=\"text text-danger\">Form Errors</h3>\n        <ul class=\"errorSummary\" if.bind=\"controller.errors.length > 0\">\n          <li repeat.for=\"error of controller.errors\">\n           <span class=\"text text-danger\"> ${error.message}</span>\n          </li>\n        </ul>\n        <div class=\"form-group\">\n          <label for=\"CustomerId\">Customer Id:</label>\n          <input type=\"text\" class=\"form-control\" value.bind=\"customer.CustomerID & validate\" placeholder=\"Customer Id\">\n        </div>\n        <div class=\"form-group\">\n          <label for=\"CompanyName\">Company Name:</label>\n          <input type=\"text\" class=\"form-control\" value.bind=\"customer.CompanyName & validate\" placeholder=\"Company Name\">\n        </div>\n        <div class=\"form-group\">\n          <label for=\"CompanyName\">Contact Name:</label>\n          <input type=\"text\" class=\"form-control\" value.bind=\"customer.ContactName & validate\" placeholder=\"Contact Name\">\n        </div>\n        <div class=\"form-group\">\n          <label for=\"Address\">Address:</label>\n          <input type=\"text\" class=\"form-control\" value.bind=\"customer.Address & validate\" placeholder=\"Address\">\n        </div>\n        <div class=\"form-group\">\n          <label for=\"PostalCode\">Postal Code:</label>\n          <input type=\"text\" class=\"form-control\" value.bind=\"customer.PostalCode & validate\" placeholder=\"Postal Code\">\n        </div>\n        <div class=\"form-group\">\n          <label for=\"Country\">Country:</label>\n          <input type=\"text\" class=\"form-control\" value.bind=\"customer.Country & validate\" placeholder=\"Country\">\n        </div>\n        <div class=\"form-group\">\n          <label for=\"Phone\">Phone:</label>\n          <input type=\"text\" class=\"form-control\" value.bind=\"customer.Phone & validate\" placeholder=\"Phone\">\n        </div>\n        <div class=\"form-group\">\n          <label for=\"Fax\">Fax:</label>\n          <input type=\"text\" class=\"form-control\" value.bind=\"customer.Fax & validate\" placeholder=\"Fax\">\n        </div>\n        <promise-button value=\"Save\" _disabled=\"true\"></promise-button>\n        <button type=\"submit\" click.trigger=\"save()\" class=\"btn btn-sm btn-primary\">Submit</button>\n        <a route-href=\"route: customers;\" class=\"btn btn-sm btn-primary\">Cancel</a>\n      </form>\n    </div>\n  </div>\n</template>\n"; });
 define('text!customers/customers.html', ['module'], function(module) { module.exports = "<template>\n  <require from=\"../resources/value-converters/filter\"></require>\n  <div class=\"row\">    \n    <div class=\"col-xs-1\">\n        <a route-href=\"route:customerDetails;params.bind : { customerId: 'new'}\" class=\"btn\"><i class=\"fa fa-plus\"> Add New Customer </i></a>\n    </div>    \n  </div>\n  <div class=\"row\">\n    <div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-12\">\n      <div class=\"page-header\">\n        <h1>Customers</h1>\n      </div>\n    </div>\n  </div>  \n  <div class=\"row\">\n                <input type=\"text\" class=\"col-md-4\" value.bind=\"searchTerm\" placeholder=\"search...\" ></input>\n                <button class=\"btn-sm btn-success search-button\" if.bind=\"searchTerm.length > 0\" click.delegate=\"search()\"><i class=\"fa fa-search\"></i></button>\n                <button class=\"btn-sm btn-danger search-button\" if.bind=\"searchTerm.length > 0\" click.delegate=\"clearSearch()\"><i class=\"fa fa-times\"></i></button>\n            </div> \n  <div class=\"row\">\n    <table class=\"table table-striped table-hover\">\n      <thead>\n        <tr>\n          <th>\n              Company Name\n            </th>\n          <th>Contact</th>\n          <th>Phone</th>\n        </tr>\n      </thead>\n      <tbody>\n        <tr repeat.for=\"customer of currentPage\">\n          <td>${customer.CompanyName}</td>\n          <td>${customer.ContactName}</td>\n          <td>${customer.Phone}</td>\n          <td>\n            <a route-href=\"route: orders; params.bind : {customerId: customer.CustomerID, customerName: customer.CompanyName}\" style=\"\" class=\"btn btn-link\"><i class=\"fa fa-2x fa-truck\"></i></a>\n            <button click.delegate=\"deleteCustomer(customer)\" class=\"btn btn-link\"><i class=\"fa fa-2x fa-trash\"></i></button>\n            <a route-href=\"route: customerDetails; params.bind: {customerId: customer.CustomerID}\" class=\"btn btn-link\"><i class=\"fa fa-2x fa-pencil\"></i></button>\n            </td>\n          </tr>\n        </tbody>\n      </table>  \n      <pager model.two-way=\"customers\" \n              current-page.two-way=\"currentPage\"></pager>         \n  </div>\n</template>\n"; });
-define('text!orders/orders.html', ['module'], function(module) { module.exports = "<template>\n  <require from=\"../resources/value-converters/filter\"></require>\n  <div class=\"row\">\n    <div class=\"col-xs-1\">\n      <a route-href=\"route:orderDetails;params.bind : { orderId: 'new'}\" class=\"btn\"><i class=\"fa fa-plus\"> Add New Order </i></a>\n    </div>\n  </div>\n  <div class=\"row\">\n    <div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-12\">\n      <div class=\"page-header\">\n        <h1>${title}</h1>\n      </div>\n    </div>\n  </div>\n  <div class=\"row\">\n    <input type=\"text\" class=\"col-md-4\" value.bind=\"searchTerm\" placeholder=\"search...\"></input>\n    <button class=\"btn-sm btn-success search-button\" if.bind=\"searchTerm.length > 0\" click.delegate=\"search()\"><i class=\"fa fa-search\"></i></button>\n    <button class=\"btn-sm btn-danger search-button\" if.bind=\"searchTerm.length > 0\" click.delegate=\"clearSearch()\"><i class=\"fa fa-times\"></i></button>\n  </div>\n  <div class=\"row\">\n    <table class=\"table table-striped table-hover\">\n      <thead>\n        <tr>\n          <th>\n            Order Date\n          </th>\n          <th>Shipped?</td>\n          <th>Employee</th>\n          <th>Shipper</th>\n          <th>Company</th>\n          <th>Ship Address</th>\n          <th>Ship City </th>          \n        </tr>\n      </thead>\n      <tbody>\n        <tr repeat.for=\"order of currentPage\">\n          <td>${order.OrderDate}</td>\n          <td>${order.Shipped}</td>\n          <td>${order.Employee}</td>\n          <td>${order.Shipper}</td>\n          <td>${order.CompanyName}</td>\n          <td>${order.ShipAddress}</td>\n          <td>${order.ShipCity}</td>\n          <td>\n            <button click.delegate=\"deleteOrder(order)\" class=\"btn btn-sm btn-danger\"><i class=\"fa fa-trash\"></i></button>\n            <a route-href=\"route: orderDetails; params.bind: {orderId: order.OrderID}\" class=\"btn btn-sm btn-primary\"><i class=\"fa fa-pencil\"></i></button>\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <pager model.two-way=\"orders\" current-page.two-way=\"currentPage\"></pager>\n  </div>\n</template>\n"; });
 define('text!categories/categories.html', ['module'], function(module) { module.exports = "<template>\n  <div>\n    <div class=\"header\">\n      <h2>Categories</h2>\n    </div>    \n  </div>\n</template>\n"; });
 define('text!shell/header.html', ['module'], function(module) { module.exports = "<template>  \n  <nav class=\"navbar navbar-inverse\" role=\"navigation\">\n    <!-- Brand and toggle get grouped for better mobile display -->\n    <div class=\"navbar-header\">\n      <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\".navbar-ex1-collapse\">\n        <span class=\"sr-only\">Toggle navigation</span>\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n      </button>\n      <a class=\"navbar-brand\" href=\"#\">\n        <img src=\"../../img/Northwind_Web_Logo.png\" style=\"height:40px;\"/>\n      </a>\n    </div>\n  \n    <!-- Collect the nav links, forms, and other content for toggling -->\n    <div class=\"collapse navbar-collapse navbar-ex1-collapse\">\n      <ul class=\"nav navbar-nav\">\n        <li repeat.for=\"item of router.navigation\" class=\"${item.isActive ? 'active' : ''}\">\n          <a href.bind=\"item.href\">\n            <i class=\"fa ${item.settings.icon}\"></i> ${item.title}\n          </a>\n        </li>\n      </ul>\n      <!--<form class=\"navbar-form navbar-right\" role=\"search\">\n        <div class=\"form-group\">\n          <input type=\"text\" class=\"form-control\" placeholder=\"Search\">\n        </div>\n        <button type=\"submit\" class=\"btn btn-default\">Submit</button>\n      </form>      -->\n    </div><!-- /.navbar-collapse -->\n  </nav>  \n</template>\n"; });
 define('text!shell/shell.html', ['module'], function(module) { module.exports = "<template>\n  <compose view=\"./header.html\"></compose>\n  <div class=\"container\">\n    <router-view></router-view>\n  </div>\n\n</template>\n"; });
@@ -3792,6 +3793,4 @@ define('text!resources/dialogs/confirmation.html', ['module'], function(module) 
 define('text!resources/dialogs/message-box.html', ['module'], function(module) { module.exports = "<template>\n  <ai-dialog style=\"max-width:325px\">\n    <ai-dialog-header></ai-dialog-header>\n      <ai-dialog-body>\n        ${model.message}\n      </ai-dialog-body>\n      <ai-dialog-footer>\n        <button repeat.for=\"option of model.options\"\n            click.trigger=\"selectOption(option)\">\n              ${option}\n          </button>\n      </ai-dialog-footer>\n  </ai-dialog>\n</template>\n"; });
 define('text!resources/elements/Pager.html', ['module'], function(module) { module.exports = "<template>\n<ul class=\"pagination\">\n  <li class.bind=\"currentPageIndex === 0 ? 'disabled' : ''\">\n    <a href=\"#\" click.delegate=\"goToFirst()\" class.bind=\"currentPageIndex === 0 ? 'disabled' : ''\">\n      <i class=\"fa fa-fast-backward\"></i>\n    </a>\n  </li>\n  <li class.bind=\"currentPageIndex === 0 ? 'disabled' : ''\">\n    <a disabled.bind=\"currentPageIndex === 0\" href=\"#\" click.trigger=\"goToPreviousPage()\">\n      <i class=\"fa fa-backward\"></i>\n    </a>\n  </li>\n  <li repeat.for=\"page of pages\" class.bind=\"$index === currentPageIndex ? 'active' : ''\">\n    <a href=\"#\" click.delegate=\"goToPage($index)\"> ${$index + 1}</a>\n  </li>\n  <li class.bind=\"currentPageIndex === pages.length-1 ? 'disabled' : ''\">\n    <a href=\"#\" click.delegate=\"goToNextPage()\">\n      <i class=\"fa fa-forward\"></i>\n    </a>\n  </li>\n  <li class.bind=\"currentPageIndex === pages.length-1 ? 'disabled' : ''\">\n    <a href=\"#\" click.delegate=\"goToLast()\">\n      <i class=\"fa fa-fast-forward\"></i>\n    </a>\n  </li>\n</ul>\n</template>\n"; });
 define('text!resources/elements/PromiseButton.html', ['module'], function(module) { module.exports = "<template>\n  <button\n    disabled.bind=\"isDisabled\"\n    click.delegate=\"click($event)\" \n   class=\"btn btn-primary\">${Value}</button>\n</template>\n"; });
-define('text!orders/order-detail.html', ['module'], function(module) { module.exports = "<template></template>\n"; });
-define('text!orders/order-details.html', ['module'], function(module) { module.exports = "<template></template>\n"; });
 //# sourceMappingURL=app-bundle.js.map
